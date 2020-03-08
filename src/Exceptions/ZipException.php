@@ -66,8 +66,8 @@ class ZipException extends \Exception
     public static function makeFromStatus($status): self
     {
         $message = array_key_exists($status, self::STATUSES)
-            ? self::STATUSES[$status]
-            : sprintf('Unknown status %s', $status);
+            ? __(self::STATUSES[$status])
+            : __('Unknown status :status', ['status' => $status]);
 
         return new static($message, $status);
     }

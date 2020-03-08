@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Console;
 
+use Arcanedev\LaravelBackup\Actions\Monitor\MonitorAction;
 use Arcanedev\LaravelBackup\Entities\BackupDestinationStatus;
-use Arcanedev\LaravelBackup\Entities\BackupDestinationStatusCollection;
-use Arcanedev\LaravelBackup\Events\HealthyBackupWasFound;
-use Arcanedev\LaravelBackup\Events\UnhealthyBackupWasFound;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 
 /**
  * Class     MonitorBackupCommand
@@ -24,7 +23,7 @@ class MonitorBackupCommand extends Command
      */
 
     /** @var string */
-    protected $signature = 'backup:monitor';
+    protected $signature = 'backup:monitor {--disable-notifications}';
 
     /** @var string */
     protected $description = 'Monitor the health of all backups.';
@@ -37,31 +36,31 @@ class MonitorBackupCommand extends Command
     /**
      * Handle the command.
      *
+     * @param  \Arcanedev\LaravelBackup\Actions\Monitor\MonitorAction  $action
+     *
      * @return int
      */
-    public function handle(): int
+    public function handle(MonitorAction $action): int
     {
-        $statuses = BackupDestinationStatusCollection::makeFromDestinations(
-            $this->laravel['config']->get('backup.monitor.destinations', [])
-        );
+        $options = Arr::only($this->options(), [
+            'disable-notifications',
+        ]);
 
-        $allAreHealthy = $statuses->every(function (BackupDestinationStatus $status) {
-            $diskName = $status->backupDestination()->diskName();
+        /** @var  \Arcanedev\LaravelBackup\Actions\Monitor\MonitorPassable  $passable */
+        $passable = $action->execute($options);
 
-            if ($status->isHealthy()) {
-                $this->info("The backups on disk [{$diskName}] are considered healthy.");
-                event(new HealthyBackupWasFound($status));
-
-                return true;
-            }
-            else {
-                $this->error("The backups on disk [{$diskName}] are considered unhealthy!");
-                event(new UnhealthyBackupWasFound($status));
-
-                return false;
-            }
+        $passable->getHealthyStatuses()->each(function (BackupDestinationStatus $status) {
+            $this->info(__('The backups on disk [:disk] are considered healthy.', [
+                'disk' => $status->backupDestination()->diskName(),
+            ]));
         });
 
-        return $allAreHealthy ? 0 : 1;
+        $passable->getUnhealthyStatuses()->each(function (BackupDestinationStatus $status) {
+            $this->error(__('The backups on disk [:disk] are considered unhealthy!', [
+                'disk' => $status->backupDestination()->diskName(),
+            ]));
+        });
+
+        return $passable->hasUnhealthyStatuses() ? 1 : 0;
     }
 }

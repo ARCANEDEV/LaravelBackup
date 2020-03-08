@@ -112,7 +112,7 @@ class MongoDbDumperTest extends DumpTestCase
         $actual = $this->dumper
             ->setDbName('dbname')
             ->setHost('mongodb.test.com')
-            ->setPort(27018)
+            ->setPort('27018')
             ->getDumpCommand('dbname.gz');
 
         $expected = '\'mongodump\' --db dbname --archive --host mongodb.test.com --port 27018 > "dbname.gz"';

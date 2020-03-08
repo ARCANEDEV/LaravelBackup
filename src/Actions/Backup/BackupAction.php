@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Actions\Backup;
 
 use Arcanedev\LaravelBackup\Actions\Action;
-use Arcanedev\LaravelBackup\Events\BackupActionHasFailed;
+use Arcanedev\LaravelBackup\Events\{BackupActionHasFailed, BackupActionWasSuccessful};
 use Exception;
 
 /**
@@ -28,39 +28,50 @@ class BackupAction extends Action
      */
     protected function pipes(): array
     {
-        return [
-            Tasks\CheckOptions::class,
-            Tasks\CheckBackupDestinations::class,
-            Tasks\CreateTemporaryDirectory::class,
-            Tasks\PrepareFilesToBackup::class,
-            Tasks\CreateBackupFile::class,
-            Tasks\MoveBackupToDisks::class,
-            Tasks\SendNotification::class,
-        ];
+        return $this->container['config']['backup.backup.tasks'];
     }
 
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
-     * Run the task.
+     * Make the passable object.
      *
      * @param  array  $options
      *
-     * @return mixed
+     * @return \Arcanedev\LaravelBackup\Actions\Backup\BackupPassable
      */
-    public function run(array $options)
+    protected function makePassable(array $options): BackupPassable
     {
-        $config = array_merge(
-            config('backup.backup', []), compact('options')
+        $options = array_merge(
+            config('backup.backup', []),
+            compact('options')
         );
 
-        return $this->send(new BackupPassable($config))
-                    ->thenReturn();
+        return new BackupPassable($options);
+    }
+
+    /**
+     * Handle the passable on success.
+     *
+     * @param  \Arcanedev\LaravelBackup\Actions\Backup\BackupPassable|mixed  $passable
+     *
+     * @return \Arcanedev\LaravelBackup\Actions\Backup\BackupPassable|mixed
+     */
+    protected function handleOnSuccess($passable)
+    {
+        event(new BackupActionWasSuccessful($passable));
+
+        return parent::handleOnSuccess($passable);
     }
 
     /**
      * Handle the given exception.
      *
-     * @param  mixed       $passable
-     * @param  \Exception  $e
+     * @param  \Arcanedev\LaravelBackup\Actions\Backup\BackupPassable|mixed  $passable
+     * @param  \Exception                                                    $e
      *
      * @return mixed|void
      *

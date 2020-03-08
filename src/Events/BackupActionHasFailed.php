@@ -39,8 +39,7 @@ class BackupActionHasFailed
      */
     public function __construct(BackupPassable $passable, Exception $exception)
     {
+        $this->passable  = $passable;
         $this->exception = $exception;
-
-        $this->passable = $passable;
     }
 }

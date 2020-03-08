@@ -64,4 +64,19 @@ abstract class Passable
     {
         return Arr::get($this->config(), $key, $default);
     }
+
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Check if the notifications are disabled.
+     *
+     * @return bool
+     */
+    public function isNotificationsDisabled(): bool
+    {
+        return $this->getConfig('options.disable-notifications', false);
+    }
 }

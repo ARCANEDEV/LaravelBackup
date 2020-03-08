@@ -86,7 +86,7 @@ class BackupPassable extends Passable
      *
      * @return $this
      */
-    public function setZip(Zip $zip): self
+    public function setZip(Zip $zip)
     {
         $this->zip = $zip;
 
@@ -110,7 +110,7 @@ class BackupPassable extends Passable
      *
      * @return $this
      */
-    public function setBackupDestinations(BackupDestinationCollection $backupDestinations): self
+    public function setBackupDestinations(BackupDestinationCollection $backupDestinations)
     {
         $this->backupDestinations = $backupDestinations;
 
@@ -140,15 +140,5 @@ class BackupPassable extends Passable
     public function isOnlyFiles(): bool
     {
         return $this->getConfig('options.only-files', true);
-    }
-
-    /**
-     * Check if the notifications are disabled.
-     *
-     * @return bool
-     */
-    public function isNotificationsDisabled(): bool
-    {
-        return $this->getConfig('options.disable-notifications', false);
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Database\Dumpers;
 
 use Arcanedev\LaravelBackup\Database\Contracts\Compressor;
-use Arcanedev\LaravelBackup\Exceptions\CannotSetDatabaseParameter;
 use Arcanedev\LaravelBackup\Exceptions\DatabaseDumpFailed;
 use Symfony\Component\Process\Process;
 
@@ -42,7 +41,7 @@ abstract class AbstractDumper
     /**
      * Get the db name.
      *
-     * @return string
+     * @return string|null
      */
     public function getDbName(): ?string
     {

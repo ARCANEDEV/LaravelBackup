@@ -20,7 +20,19 @@ class BackupDestinationStatusCollection extends Collection
      */
 
     /**
-     * Make the backup destination statuses from configuration.
+     * Make the backup destination statuses from config repository.
+     *
+     * @return static|\Arcanedev\LaravelBackup\Entities\BackupDestinationStatus[]
+     */
+    public static function makeFromConfig(): self
+    {
+        return static::makeFromDestinations(
+            config('backup.monitor.destinations', [])
+        );
+    }
+
+    /**
+     * Make the backup destination statuses from configuration array.
      *
      * @param  array  $config
      *

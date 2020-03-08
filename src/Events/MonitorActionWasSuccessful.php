@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Events;
 
-use Arcanedev\LaravelBackup\Entities\BackupDestinationStatus;
+use Arcanedev\LaravelBackup\Actions\monitor\MonitorPassable;
 
 /**
- * Class     HealthyBackupWasFound
+ * Class     MonitorActionWasSuccessful
  *
  * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class HealthyBackupWasFound
+class MonitorActionWasSuccessful
 {
     /* -----------------------------------------------------------------
      |  Properties
      | -----------------------------------------------------------------
      */
 
-    /**
-     * @var \Arcanedev\LaravelBackup\Entities\BackupDestinationStatus
-     */
-    public $backupDestinationStatus;
+    /** @var  \Arcanedev\LaravelBackup\Actions\monitor\MonitorPassable */
+    public $passable;
 
     /* -----------------------------------------------------------------
      |  Constructor
@@ -30,12 +28,12 @@ class HealthyBackupWasFound
      */
 
     /**
-     * HealthyBackupWasFound constructor.
+     * MonitorActionHasFailed constructor.
      *
-     * @param  \Arcanedev\LaravelBackup\Entities\BackupDestinationStatus  $backupDestinationStatus
+     * @param  \Arcanedev\LaravelBackup\Actions\monitor\MonitorPassable  $passable
      */
-    public function __construct(BackupDestinationStatus $backupDestinationStatus)
+    public function __construct(MonitorPassable $passable)
     {
-        $this->backupDestinationStatus = $backupDestinationStatus;
+        $this->passable = $passable;
     }
 }

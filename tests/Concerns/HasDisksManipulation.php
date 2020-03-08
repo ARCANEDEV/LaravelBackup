@@ -54,6 +54,19 @@ trait HasDisksManipulation
     }
 
     /**
+     * Delete a directory on a disk.
+     *
+     * @param  string  $diskName
+     * @param  string  $directory
+     *
+     * @return bool
+     */
+    protected static function deleteDirectoryOnDisk(string $diskName, string $directory): bool
+    {
+        return Storage::disk($diskName)->deleteDirectory($directory);
+    }
+
+    /**
      * Get the full disk path.
      *
      * @param  string  $diskName

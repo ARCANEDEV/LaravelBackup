@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Entities;
 
 use Arcanedev\LaravelBackup\Exceptions\InvalidBackupDestination;
+use Arcanedev\LaravelBackup\Helpers\Format;
 use DateTimeInterface;
 use Exception;
 use Illuminate\Contracts\Filesystem\Filesystem;
@@ -180,6 +181,16 @@ class BackupDestination
     public function usedStorage(): float
     {
         return $this->backups()->size();
+    }
+
+    /**
+     * Get the used storage in a human readable text.
+     *
+     * @return string
+     */
+    public function humanReadableUsedStorage(): string
+    {
+        return Format::humanReadableSize($this->usedStorage());
     }
 
     /**

@@ -187,7 +187,14 @@ class Zip
      */
     public function addFile(string $file, string $localName = null): self
     {
-        if ($this->zipArchive()->addFile($file, $localName ?: $this->guessFilenameInArchive($file))) {
+        if (is_dir($file)) {
+            $this->addEmptyDir($file);
+        }
+
+        if (
+            is_file($file) &&
+            $this->zipArchive()->addFile($file, $localName ?: $this->guessFilenameInArchive($file))
+        ) {
             $this->fileCount++;
         }
 

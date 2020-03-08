@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Actions\Cleanup;
 
 use Arcanedev\LaravelBackup\Actions\Passable;
-use Arcanedev\LaravelBackup\Entities\BackupDestinationCollection;
-use Arcanedev\LaravelBackup\Entities\Period;
+use Arcanedev\LaravelBackup\Entities\{BackupDestinationCollection, Period};
 use Illuminate\Support\Collection;
 
 /**
@@ -15,7 +14,7 @@ use Illuminate\Support\Collection;
  * @package  Arcanedev\LaravelBackup\Actions\Cleanup
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class CleanPassable extends Passable
+class CleanupPassable extends Passable
 {
     /* -----------------------------------------------------------------
      |  Properties
@@ -33,9 +32,9 @@ class CleanPassable extends Passable
     /**
      * Get the backup destinations.
      *
-     * @return \Arcanedev\LaravelBackup\Entities\BackupDestinationCollection|\Arcanedev\LaravelBackup\Entities\BackupDestination[]
+     * @return \Arcanedev\LaravelBackup\Entities\BackupDestinationCollection|\Arcanedev\LaravelBackup\Entities\BackupDestination[]|null
      */
-    public function getBackupDestinations(): BackupDestinationCollection
+    public function getBackupDestinations(): ?BackupDestinationCollection
     {
         return $this->backupDestinations;
     }
@@ -52,16 +51,6 @@ class CleanPassable extends Passable
         $this->backupDestinations = $backupDestinations;
 
         return $this;
-    }
-
-    /**
-     * Check if the notifications are disabled.
-     *
-     * @return bool
-     */
-    public function isNotificationsDisabled(): bool
-    {
-        return $this->getConfig('options.disable-notifications', false);
     }
 
     /**

@@ -52,7 +52,7 @@ class CheckOptions implements TaskInterface
     private function checkOptions(BackupPassable $passable)
     {
         if ($passable->isOnlyDatabases() && $passable->isOnlyFiles()) {
-            throw new InvalidTaskOptions('Cannot use `only-db` and `only-files` together');
+            throw new InvalidTaskOptions(__('Cannot use `only-db` and `only-files` together'));
         }
     }
 }

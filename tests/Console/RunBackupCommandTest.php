@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Console;
 
+use Arcanedev\LaravelBackup\Entities\Notifiable;
 use Arcanedev\LaravelBackup\Events\{
-    BackupActionHasFailed, BackupManifestWasCreated, BackupWasSuccessful, BackupZipWasCreated,
+    BackupActionHasFailed, BackupActionWasSuccessful, BackupManifestWasCreated, BackupZipWasCreated,
 };
+use Arcanedev\LaravelBackup\Notifications\BackupWasSuccessfulNotification;
 use Arcanedev\LaravelBackup\Tests\TestCase;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\{Event, Notification, Storage};
 
 /**
  * Class     RunBackupCommandTest
@@ -32,6 +33,7 @@ class RunBackupCommandTest extends TestCase
         static::copyStubsDatabasesInto();
 
         Event::fake();
+        Notification::fake();
     }
 
     /* -----------------------------------------------------------------
@@ -51,9 +53,11 @@ class RunBackupCommandTest extends TestCase
 
         Event::assertDispatched(BackupManifestWasCreated::class);
         Event::assertDispatched(BackupZipWasCreated::class);
+        Event::assertDispatched(BackupActionWasSuccessful::class);
 
-        Event::assertDispatched(BackupWasSuccessful::class);
         Event::assertNotDispatched(BackupActionHasFailed::class);
+
+        Notification::assertNotSentTo(new Notifiable, BackupWasSuccessfulNotification::class);
     }
 
     /** @test */
@@ -68,8 +72,8 @@ class RunBackupCommandTest extends TestCase
 
         Event::assertDispatched(BackupManifestWasCreated::class);
         Event::assertDispatched(BackupZipWasCreated::class);
+        Event::assertDispatched(BackupActionWasSuccessful::class);
 
-        Event::assertNotDispatched(BackupWasSuccessful::class);
         Event::assertNotDispatched(BackupActionHasFailed::class);
     }
 
@@ -85,7 +89,7 @@ class RunBackupCommandTest extends TestCase
 
         Event::assertDispatched(BackupActionHasFailed::class);
 
-        Event::assertNotDispatched(BackupWasSuccessful::class);
+        Event::assertNotDispatched(BackupActionWasSuccessful::class);
         Event::assertNotDispatched(BackupManifestWasCreated::class);
         Event::assertNotDispatched(BackupZipWasCreated::class);
     }

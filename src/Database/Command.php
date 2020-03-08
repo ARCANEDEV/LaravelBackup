@@ -52,9 +52,13 @@ class Command
      *
      * @return $this|\Arcanedev\LaravelBackup\Database\Command
      */
-    public function addIf(bool $condition, string $command)
+    public function addIf(bool $condition, string $command): self
     {
-        return $condition ? $this->add($command) : $this;
+        if ($condition) {
+            return $this->add($command);
+        }
+
+        return $this;
     }
 
     /**
@@ -63,7 +67,7 @@ class Command
      *
      * @return $this|\Arcanedev\LaravelBackup\Database\Command
      */
-    public function addUnless(bool $condition, string $command)
+    public function addUnless(bool $condition, string $command): self
     {
         return $this->addIf( ! $condition, $command);
     }
@@ -75,7 +79,7 @@ class Command
      *
      * @return $this
      */
-    public function add(string $command)
+    public function add(string $command): self
     {
         $this->commands[] = $command;
 
@@ -89,7 +93,7 @@ class Command
      *
      * @return $this
      */
-    public function addMany(array $commands)
+    public function addMany(array $commands): self
     {
         foreach ($commands as $command) {
             $this->add($command);
@@ -114,21 +118,25 @@ class Command
      */
 
     /**
+     * Make the command instance.
+     *
      * @param  array  $commands
      *
-     * @return static
+     * @return self
      */
-    public static function make(array $commands = [])
+    public static function make(array $commands = []): self
     {
         return new static($commands);
     }
 
     /**
+     * Convert into a string command.
+     *
      * @param  string  $glue
      *
      * @return string
      */
-    public function toString(string $glue = ' ')
+    public function toString(string $glue = ' '): string
     {
         return static::prepareCommand(
             implode($glue, $this->all())
@@ -146,7 +154,6 @@ class Command
         $command  = $this->toString();
         $dumpFile = '"'.addcslashes($dumpFile, '\\"').'"';
 
-        // TODO: Add windows support
         return $compressor
             ? "(((({$command}; echo \$? >&3) | {$compressor->useCommand()} > {$dumpFile}) 3>&1) | (read x; exit \$x))"
             : "{$command} > {$dumpFile}";
@@ -166,11 +173,9 @@ class Command
      */
     protected function prepareCommand(string $command): string
     {
-        if (static::isWindowsOS()) {
-            $command = str_replace('\'', '"', $command);
-        }
-
-        return $command;
+        return static::isWindowsOS()
+            ? str_replace("'", '"', $command)
+            : $command;
     }
 
     /**
@@ -178,7 +183,7 @@ class Command
      *
      * @return bool
      */
-    private static function isWindowsOS(): bool
+    protected static function isWindowsOS(): bool
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }

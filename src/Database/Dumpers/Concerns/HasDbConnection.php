@@ -28,7 +28,7 @@ trait HasDbConnection
     /** @var string */
     protected $host = 'localhost';
 
-    /** @var int */
+    /** @var string */
     protected $port;
 
     /** @var string|null */
@@ -123,11 +123,11 @@ trait HasDbConnection
     /**
      * Set the port.
      *
-     * @param int $port
+     * @param  string  $port
      *
      * @return $this|mixed
      */
-    public function setPort(int $port): self
+    public function setPort(string $port): self
     {
         $this->port = $port;
 
@@ -137,9 +137,9 @@ trait HasDbConnection
     /**
      * Get the port.
      *
-     * @return int|null
+     * @return string|null
      */
-    public function getPort(): ?int
+    public function getPort(): ?string
     {
         return $this->port;
     }

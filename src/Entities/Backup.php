@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Entities;
 
+use Arcanedev\LaravelBackup\Helpers\Format;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -129,6 +130,16 @@ class Backup
         }
 
         return $this->size = $this->disk()->size($this->path());
+    }
+
+    /**
+     * Get the backup's size in bytes in human readable text.
+     *
+     * @return string
+     */
+    public function humanReadableSize(): string
+    {
+        return Format::humanReadableSize($this->size());
     }
 
     /**

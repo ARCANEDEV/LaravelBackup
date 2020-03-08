@@ -27,10 +27,11 @@ class CannotCreateDbDumper extends Exception
      */
     public static function unsupportedDriver(string $driver, array $supported): self
     {
-        $supported = implode('`, `', $supported);
-
         return new static(
-            "Cannot create a dumper for db driver `{$driver}`. Use `{$supported}`."
+            __("Cannot create a dumper for db driver `:driver`. Use `:supported`.", [
+                'driver'    => $driver,
+                'supported' => implode('`, `', $supported),
+            ])
         );
     }
 }

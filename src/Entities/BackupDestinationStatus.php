@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Entities;
 
 use Arcanedev\LaravelBackup\Actions\Monitor\HealthCheckFailure;
-use Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks\HealthCheckable;
-use Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks\IsReachable;
+use Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks\{HealthCheckable, IsReachable};
 use Exception;
-use Illuminate\Support\{Arr, Collection};
+use Illuminate\Support\Collection;
 
 /**
  * Class     BackupDestinationStatus
@@ -26,7 +25,7 @@ class BackupDestinationStatus
     /** @var  \Arcanedev\LaravelBackup\Entities\BackupDestination */
     protected $backupDestination;
 
-    /** @var array */
+    /** @var \Illuminate\Support\Collection */
     protected $healthChecks;
 
     /** @var HealthCheckFailure|null */
@@ -46,7 +45,10 @@ class BackupDestinationStatus
     public function __construct(BackupDestination $backupDestination, array $healthChecks = [])
     {
         $this->backupDestination = $backupDestination;
-        $this->healthChecks = $healthChecks;
+
+        $this->setHealthChecks(
+            Collection::make($healthChecks)->prepend(new IsReachable)
+        );
     }
 
     /* -----------------------------------------------------------------
@@ -71,7 +73,21 @@ class BackupDestinationStatus
      */
     public function getHealthChecks(): Collection
     {
-        return Collection::make($this->healthChecks)->prepend(new IsReachable);
+        return $this->healthChecks;
+    }
+
+    /**
+     * Set the health checks.
+     *
+     * @param  \Illuminate\Support\Collection  $healthChecks
+     *
+     * @return $this
+     */
+    public function setHealthChecks(Collection $healthChecks)
+    {
+        $this->healthChecks = $healthChecks;
+
+        return $this;
     }
 
     /**
@@ -101,27 +117,8 @@ class BackupDestinationStatus
     {
         return new static(
             BackupDestination::makeFromDiskName($diskName, $config['name']),
-            static::buildHealthChecks($config)
+            static::buildHealthChecks($config['health-checks'])
         );
-    }
-
-    /**
-     * Check with the health check.
-     *
-     * @param  \Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks\HealthCheckable  $healCheck
-     *
-     * @return \Arcanedev\LaravelBackup\Actions\Monitor\HealthCheckFailure|bool
-     */
-    public function check(HealthCheckable $healCheck)
-    {
-        try {
-            $healCheck->check($this->backupDestination());
-
-            return true;
-        }
-        catch (Exception $exception) {
-            return new HealthCheckFailure($healCheck, $exception);
-        }
     }
 
     /* -----------------------------------------------------------------
@@ -149,6 +146,25 @@ class BackupDestinationStatus
         return true;
     }
 
+    /**
+     * Check with the health check.
+     *
+     * @param  \Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks\HealthCheckable  $healCheck
+     *
+     * @return \Arcanedev\LaravelBackup\Actions\Monitor\HealthCheckFailure|bool
+     */
+    public function check(HealthCheckable $healCheck)
+    {
+        try {
+            $healCheck->check($this->backupDestination());
+
+            return true;
+        }
+        catch (Exception $exception) {
+            return new HealthCheckFailure($healCheck, $exception);
+        }
+    }
+
     /* -----------------------------------------------------------------
      |  Other Methods
      | -----------------------------------------------------------------
@@ -157,13 +173,13 @@ class BackupDestinationStatus
     /**
      * Build health checks.
      *
-     * @param  array  $config
+     * @param  array  $healthChecks
      *
      * @return array
      */
-    protected static function buildHealthChecks(array $config): array
+    protected static function buildHealthChecks(array $healthChecks): array
     {
-        return Collection::make(Arr::get($config, 'health-checks'))
+        return Collection::make($healthChecks)
             ->transform(function (array $options, string $class) {
                 return new $class(...$options);
             })

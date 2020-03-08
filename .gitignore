@@ -1,5 +1,5 @@
-build
-composer.lock
-vendor
-.phpunit.result.cache
+/build
+/vendor
 /tests/temp/
+composer.lock
+.phpunit.result.cache

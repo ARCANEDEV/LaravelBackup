@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Entities;
 
 use Arcanedev\LaravelBackup\Helpers\FileChecker;
+use Arcanedev\LaravelBackup\Helpers\Format;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
@@ -44,6 +45,16 @@ class BackupCollection extends Collection
         return $this->cachedSize = $this->sum(function (Backup $backup) {
             return $backup->size();
         });
+    }
+
+    /**
+     * Get the backups' size as a human readable text.
+     *
+     * @return string
+     */
+    public function humanReadableSize(): string
+    {
+        return Format::humanReadableSize($this->size());
     }
 
     /* -----------------------------------------------------------------

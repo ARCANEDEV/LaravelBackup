@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Actions\Cleanup;
 
 use Arcanedev\LaravelBackup\Actions\Action;
-use Arcanedev\LaravelBackup\Events\CleanActionHasFailed;
+use Arcanedev\LaravelBackup\Events\{CleanupActionHasFailed, CleanupActionWasSuccessful};
 use Exception;
 
 /**
@@ -28,35 +28,50 @@ class CleanAction extends Action
      */
     protected function pipes(): array
     {
-        return [
-            Tasks\CheckBackupDestinations::class,
-            Tasks\ApplyCleanupStrategy::class,
-            Tasks\SendNotification::class,
-        ];
+        return $this->container['config']['backup.cleanup.tasks'];
     }
 
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
-     * Run the task.
+     * Make the passable object.
      *
      * @param  array  $options
      *
-     * @return \Arcanedev\LaravelBackup\Actions\Cleanup\CleanPassable
+     * @return \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable
      */
-    public function run(array $options)
+    protected function makePassable(array $options): CleanupPassable
     {
-        $config = array_merge(
-            config('backup.cleanup', []), compact('options')
+        $options = array_merge(
+            config('backup.cleanup', []),
+            compact('options')
         );
 
-        return $this->send(new CleanPassable($config))
-                    ->thenReturn();
+        return new CleanupPassable($options);
+    }
+
+    /**
+     * Handle the passable on success.
+     *
+     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable|mixed  $passable
+     *
+     * @return \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable|mixed
+     */
+    protected function handleOnSuccess($passable)
+    {
+        event(new CleanupActionWasSuccessful($passable));
+
+        return parent::handleOnSuccess($passable);
     }
 
     /**
      * Handle the given exception.
      *
-     * @param  mixed       $passable
-     * @param  \Exception  $e
+     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable|mixed  $passable
+     * @param  \Exception                                                      $e
      *
      * @return mixed|void
      *
@@ -64,7 +79,7 @@ class CleanAction extends Action
      */
     protected function handleException($passable, Exception $e)
     {
-        event(new CleanActionHasFailed($passable, $e));
+        event(new CleanupActionHasFailed($passable, $e));
 
         parent::handleException($passable, $e);
     }
