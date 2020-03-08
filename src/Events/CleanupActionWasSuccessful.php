@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Events;
 
-use Arcanedev\LaravelBackup\Entities\BackupDestinationStatus;
+use Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable;
 
 /**
- * Class     UnhealthyBackupWasFound
+ * Class     CleanupWasSuccessful
  *
  * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class UnhealthyBackupWasFound
+class CleanupActionWasSuccessful
 {
     /* -----------------------------------------------------------------
      |  Properties
      | -----------------------------------------------------------------
      */
 
-    /**
-     * @var \Arcanedev\LaravelBackup\Entities\BackupDestinationStatus
-     */
-    private $backupDestinationStatus;
+    /** @var  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable */
+    public $passable;
 
     /* -----------------------------------------------------------------
      |  Constructor
@@ -30,12 +28,12 @@ class UnhealthyBackupWasFound
      */
 
     /**
-     * UnhealthyBackupWasFound constructor.
+     * CleanupActionWasSuccessful constructor.
      *
-     * @param  \Arcanedev\LaravelBackup\Entities\BackupDestinationStatus  $backupDestinationStatus
+     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable  $passable
      */
-    public function __construct(BackupDestinationStatus $backupDestinationStatus)
+    public function __construct(CleanupPassable $passable)
     {
-        $this->backupDestinationStatus = $backupDestinationStatus;
+        $this->passable = $passable;
     }
 }

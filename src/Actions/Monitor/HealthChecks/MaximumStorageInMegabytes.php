@@ -56,7 +56,7 @@ class MaximumStorageInMegabytes extends AbstractHealthCheck
 
         $this->failIf(
             $this->exceedsAllowance($usageInBytes),
-            trans('backup::notifications.unhealthy_backup_found_full', [
+            __('The backups are using too much storage. Current usage is :disk_usage which is higher than the allowed limit of :disk_limit.', [
                 'disk_usage' => static::humanReadableSize($usageInBytes),
                 'disk_limit' => static::humanReadableSize(static::toBytes($this->maximumSizeInMegaBytes)),
             ])

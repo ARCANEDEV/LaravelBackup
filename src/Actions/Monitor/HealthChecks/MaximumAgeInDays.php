@@ -55,18 +55,23 @@ class MaximumAgeInDays extends AbstractHealthCheck
     {
         $this->failIf(
             $this->hasNoBackups($backupDestination),
-            trans('backup::notifications.unhealthy_backup_found_empty')
+            __('There are no backups of this application at all.')
         );
 
         $newestBackup = $backupDestination->backups()->newest();
 
         $this->failIf(
             static::isBackupTooOld($newestBackup),
-            trans('backup::notifications.unhealthy_backup_found_old', [
+            __('The latest backup made on :date is considered too old.', [
                 'date' => $newestBackup->date()->format('Y/m/d h:i:s'),
             ])
         );
     }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
 
     /**
      * Check if the destination has no backups.

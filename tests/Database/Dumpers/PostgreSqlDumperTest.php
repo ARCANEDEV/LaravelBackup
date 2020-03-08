@@ -121,7 +121,7 @@ class PostgreSqlDumperTest extends DumpTestCase
             ->setDbName('dbname')
             ->setUserName('username')
             ->setPassword('password')
-            ->setPort(1234)
+            ->setPort('1234')
             ->getDumpCommand('dump.sql');
 
         $expected = '\'pg_dump\' -U username -h localhost -p 1234 > "dump.sql"';
@@ -193,7 +193,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     public function it_will_throw_an_exception_when_setting_exclude_tables_after_setting_tables()
     {
         $this->expectException(CannotSetDatabaseParameter::class);
-        $this->expectExceptionMessage("Cannot set `excludeTables` because it conflicts with parameter `includeTables`.");
+        $this->expectExceptionMessage("Cannot set `excludeTables` because it conflicts with parameter `includeTables`");
 
         $this->dumper
             ->setDbName('dbname')
@@ -207,7 +207,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     public function it_will_throw_an_exception_when_setting_tables_after_setting_exclude_tables()
     {
         $this->expectException(CannotSetDatabaseParameter::class);
-        $this->expectExceptionMessage("Cannot set `includeTables` because it conflicts with parameter `excludeTables`.");
+        $this->expectExceptionMessage("Cannot set `includeTables` because it conflicts with parameter `excludeTables`");
 
         $this->dumper
             ->setDbName('dbname')
@@ -255,7 +255,7 @@ class PostgreSqlDumperTest extends DumpTestCase
             ->setUserName('username')
             ->setPassword('password')
             ->setHost('hostname')
-            ->setPort(5432)
+            ->setPort('5432')
             ->getCredentials();
 
         $expected = 'hostname:5432:dbname:username:password';
@@ -292,5 +292,20 @@ class PostgreSqlDumperTest extends DumpTestCase
         $dumper = $this->dumper->setHost('myHost');
 
         static::assertSame('myHost', $dumper->getHost());
+    }
+
+    /** @test */
+    public function it_can_generate_a_dump_command_with_no_create_info()
+    {
+        $actual = $this->dumper
+            ->setDbName('dbname')
+            ->setUserName('username')
+            ->setPassword('password')
+            ->doNotCreateTables()
+            ->getDumpCommand('dump.sql');
+
+        $expected = '\'pg_dump\' -U username -h localhost -p 5432 --data-only > "dump.sql"';
+
+        static::assertSame($expected, $actual);
     }
 }

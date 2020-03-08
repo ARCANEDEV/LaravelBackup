@@ -23,7 +23,10 @@ class CannotSetDatabaseParameter extends Exception
     public static function conflictingParameters($name, $conflictName): self
     {
         return new static(
-            "Cannot set `{$name}` because it conflicts with parameter `{$conflictName}`."
+            __("Cannot set `:name` because it conflicts with parameter `:conflict_name`", [
+                'name'          => $name,
+                'conflict_name' => $conflictName,
+            ])
         );
     }
 }

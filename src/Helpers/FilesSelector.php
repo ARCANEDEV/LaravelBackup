@@ -66,8 +66,7 @@ class FilesSelector
     {
         $this->finder = $finder
             ->ignoreDotFiles(false)
-            ->ignoreVCS(false)
-            ->files();
+            ->ignoreVCS(false);
 
         return $this;
     }

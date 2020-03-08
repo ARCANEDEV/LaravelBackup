@@ -23,11 +23,11 @@ class DatabaseDumpFailed extends Exception
     public static function processDidNotEndSuccessfully(Process $process): self
     {
         return new static(
-            sprintf("The dump process failed with exit code [%s - %s] : %s",
-                $process->getExitCode(),
-                $process->getExitCodeText(),
-                $process->getErrorOutput()
-            )
+            __("The dump process failed with exit code [:exit_code - :exit_code_text] : :error_output", [
+                'exit_code'      => $process->getExitCode(),
+                'exit_code_text' => $process->getExitCodeText(),
+                'error_output'   => $process->getErrorOutput(),
+            ])
         );
     }
 
@@ -36,7 +36,7 @@ class DatabaseDumpFailed extends Exception
      */
     public static function dumpfileWasNotCreated(): self
     {
-        return new static('The dumpfile could not be created');
+        return new static(__('The dumpfile could not be created'));
     }
 
     /**
@@ -44,6 +44,6 @@ class DatabaseDumpFailed extends Exception
      */
     public static function dumpfileWasEmpty(): self
     {
-        return new static('The created dumpfile is empty');
+        return new static(__('The created dumpfile is empty'));
     }
 }

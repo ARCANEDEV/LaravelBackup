@@ -4,28 +4,36 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Events;
 
+use Arcanedev\LaravelBackup\Actions\Backup\BackupPassable;
+
 /**
  * Class     BackupWasSuccessful
  *
  * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class BackupWasSuccessful
+class BackupActionWasSuccessful
 {
     /* -----------------------------------------------------------------
      |  Properties
      | -----------------------------------------------------------------
      */
 
-    //
+    /** @var  \Arcanedev\LaravelBackup\Actions\Backup\BackupPassable */
+    public $passable;
 
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
      */
 
-    public function __construct()
+    /**
+     * BackupWasSuccessful constructor.
+     *
+     * @param  \Arcanedev\LaravelBackup\Actions\Backup\BackupPassable  $passable
+     */
+    public function __construct(BackupPassable $passable)
     {
-        //
+        $this->passable = $passable;
     }
 }

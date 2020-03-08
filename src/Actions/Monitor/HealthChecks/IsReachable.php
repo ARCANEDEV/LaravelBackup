@@ -24,13 +24,13 @@ class IsReachable extends AbstractHealthCheck
      *
      * @param  \Arcanedev\LaravelBackup\Entities\BackupDestination  $backupDestination
      *
-     * @return mixed
+     * @return mixed|void
      */
     public function check(BackupDestination $backupDestination)
     {
         $this->failUnless(
             $backupDestination->isReachable(),
-            trans('backup::notification.unhealthy_backup_found_not_reachable', [
+            __('The backup destination cannot be reached. :error', [
                 'error' => $backupDestination->connectionError(),
             ])
         );

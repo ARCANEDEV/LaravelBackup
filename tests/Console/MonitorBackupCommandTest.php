@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Tests\Console;
 
 use Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks\MaximumAgeInDays;
-use Arcanedev\LaravelBackup\Events\{HealthyBackupWasFound, UnhealthyBackupWasFound};
+use Arcanedev\LaravelBackup\Events\{HealthyBackupsWasFound, UnhealthyBackupsWasFound};
 use Arcanedev\LaravelBackup\Tests\TestCase;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
@@ -38,11 +38,15 @@ class MonitorBackupCommandTest extends TestCase
     /** @test */
     public function it_succeeds_when_destination_is_reachable()
     {
+        static::create1MbFileOnDisk('local', 'ARCANEDEV/test.zip', Carbon::now()->subSecond());
+
         $this->artisan('backup:monitor')
              ->assertExitCode(0)
-             ->expectsOutput("The backups on disk [local] are considered healthy.");
+             ->expectsOutput('The backups on disk [local] are considered healthy.');
 
-        Event::assertDispatched(HealthyBackupWasFound::class);
+        Event::assertDispatched(HealthyBackupsWasFound::class);
+
+        static::deleteDirectoryOnDisk('local', 'ARCANEDEV');
     }
 
     /** @test */
@@ -52,9 +56,9 @@ class MonitorBackupCommandTest extends TestCase
 
         $this->artisan('backup:monitor')
              ->assertExitCode(1)
-             ->expectsOutput("The backups on disk [not-real-disk] are considered unhealthy!");
+             ->expectsOutput('The backups on disk [not-real-disk] are considered unhealthy!');
 
-        Event::assertDispatched(UnhealthyBackupWasFound::class);
+        Event::assertDispatched(UnhealthyBackupsWasFound::class);
     }
 
     /* -----------------------------------------------------------------
@@ -71,9 +75,9 @@ class MonitorBackupCommandTest extends TestCase
 
         $this->artisan('backup:monitor')
              ->assertExitCode(0)
-             ->expectsOutput("The backups on disk [primary-storage] are considered healthy.");
+             ->expectsOutput('The backups on disk [primary-storage] are considered healthy.');
 
-        Event::assertDispatched(HealthyBackupWasFound::class);
+        Event::assertDispatched(HealthyBackupsWasFound::class);
     }
 
     /** @test */
@@ -83,9 +87,9 @@ class MonitorBackupCommandTest extends TestCase
 
         $this->artisan('backup:monitor')
              ->assertExitCode(1)
-             ->expectsOutput("The backups on disk [primary-storage] are considered unhealthy!");
+             ->expectsOutput('The backups on disk [primary-storage] are considered unhealthy!');
 
-        Event::assertDispatched(UnhealthyBackupWasFound::class);
+        Event::assertDispatched(UnhealthyBackupsWasFound::class);
     }
 
     /** @test */
@@ -97,9 +101,9 @@ class MonitorBackupCommandTest extends TestCase
 
         $this->artisan('backup:monitor')
              ->assertExitCode(1)
-             ->expectsOutput("The backups on disk [primary-storage] are considered unhealthy!");
+             ->expectsOutput('The backups on disk [primary-storage] are considered unhealthy!');
 
-        Event::assertDispatched(UnhealthyBackupWasFound::class);
+        Event::assertDispatched(UnhealthyBackupsWasFound::class);
     }
 
     /** @test */
@@ -114,8 +118,8 @@ class MonitorBackupCommandTest extends TestCase
 
         $this->artisan('backup:monitor')
              ->assertExitCode(0)
-             ->expectsOutput("The backups on disk [primary-storage] are considered healthy.");
+             ->expectsOutput('The backups on disk [primary-storage] are considered healthy.');
 
-        Event::assertDispatched(HealthyBackupWasFound::class);
+        Event::assertDispatched(HealthyBackupsWasFound::class);
     }
 }

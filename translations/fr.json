@@ -1,0 +1,32 @@
+{
+    "Exception message: :message": "Message de l'exception : :message",
+    "Exception trace: :trace": "Trace de l'exception : :trace",
+    "Exception message": "Message de l'exception",
+    "Exception trace": "Trace de l'exception",
+
+    "Failed backup of :application_name": "Échec de la sauvegarde de :application_name",
+    "Important: An error occurred while backing up :application_name": "Important : Une erreur est survenue lors de la sauvegarde de :application_name",
+
+    "Successful new backup of :application_name": "Succès de la sauvegarde de :application_name",
+    "Successful new backup!": "Sauvegarde créée avec succès !",
+    "Great news, a new backup of :application_name was successfully created on the disk named :disk_name.": "Bonne nouvelle, une nouvelle sauvegarde de :application_name a été créée avec succès sur le disque nommé :disk_name.",
+
+    "Cleaning up the backups of :application_name failed.": "Le nettoyage des sauvegardes de :application_name a echoué.",
+    "An error occurred while cleaning up the backups of :application_name": "Une erreur est survenue lors du nettoyage des sauvegardes de :application_name",
+
+    "Clean up of :application_name backups successful": "Succès du nettoyage des sauvegardes de :application_name",
+    "Clean up of backups successful!": "Sauvegardes nettoyées avec succès !",
+    "The clean up of the :application_name backups on the disk named :disk_name was successful.": "Le nettoyage des sauvegardes de :application_name sur le disque nommé :disk_name a été effectué avec succès.",
+
+    "The backups for :application_name on disk :disk_name are healthy": "Les sauvegardes pour :application_name sur le disque :disk_name sont saines",
+    "The backups for :application_name are healthy": "Les sauvegardes pour :application_name sont saines",
+    "The backups for :application_name are considered healthy. Good job!": "Les sauvegardes pour :application_name sont considérées saines. Bon travail !",
+
+    "Important: The backups for :application_name are unhealthy": "Important : Les sauvegardes pour :application_name sont corrompues",
+    "The backups for :application_name on disk :disk_name are unhealthy.": "Les sauvegardes pour :application_name sur le disque :disk_name sont corrompues.",
+    "The backup destination cannot be reached. :error": "La destination de la sauvegarde n'est pas accessible. :error",
+    "There are no backups of this application at all.": "Il n'y a aucune sauvegarde pour cette application.",
+    "The latest backup made on :date is considered too old.": "La dernière sauvegarde du :date est considérée trop vieille.",
+    "Sorry, an exact reason cannot be determined.": "Désolé, une raison exacte ne peut être déterminée.",
+    "The backups are using too much storage. Current usage is :disk_usage which is higher than the allowed limit of :disk_limit.": "Les sauvegardes utilisent trop d'espace disque. L'utilisation actuelle est de :disk_usage alors que la limite autorisée est de :disk_limit."
+}

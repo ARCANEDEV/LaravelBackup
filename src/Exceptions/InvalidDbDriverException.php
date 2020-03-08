@@ -28,6 +28,8 @@ class InvalidDbDriverException extends InvalidArgumentException
      */
     public static function undefinedDriver(string $class): self
     {
-        return new static("Unable to resolve NULL DB driver for [{$class}].");
+        return new static(
+            __("Unable to resolve NULL DB driver for [:class].", ['class' => $class])
+        );
     }
 }

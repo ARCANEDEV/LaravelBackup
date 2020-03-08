@@ -109,9 +109,7 @@ class DbDumperManager
      */
     protected function createSqliteDumper(array $config = []): SqliteDumper
     {
-        $dumper = $this->createDumper(SqliteDumper::class, $config);
-
-        return $dumper;
+        return $this->createDumper(SqliteDumper::class, $config);
     }
 
     /**
@@ -154,7 +152,7 @@ class DbDumperManager
         $dumper = $this->createDumperWithConnection(MongoDbDumper::class, $config);
 
         return $dumper->setAuthenticationDatabase(
-            config('database.connections.mongodb.dump.mongodb_user_auth') ?: ''
+            $config['dump']['mongodb_user_auth'] ?? ''
         );
     }
 
@@ -173,13 +171,13 @@ class DbDumperManager
      */
     protected function createDumperWithConnection(string $class, array $config): AbstractDumper
     {
-        return tap($this->createDumper($class, $config), function ($dumper) {
+        return tap($this->createDumper($class, $config), function ($dumper) use ($config) {
             $dumper->setHost(Arr::first(Arr::wrap($config['host'] ?? '')))
                    ->setUserName($config['username'] ?? '')
                    ->setPassword($config['password'] ?? '');
 
             if (isset($config['port'])) {
-                $dumper->setPort($config['port']);
+                $dumper->setPort((string) $config['port']);
             }
         });
     }
@@ -215,23 +213,28 @@ class DbDumperManager
     protected function parseConfig(string $connection): array
     {
         try {
-            $dbConfig = (new ConfigurationUrlParser)
-                ->parseConfiguration(config("database.connections.{$connection}"));
+            $config = (new ConfigurationUrlParser)->parseConfiguration(
+                $this->app['config']->get("database.connections.{$connection}")
+            );
         }
         catch (Exception $e) {
             throw CannotCreateDbDumper::unsupportedDriver($connection, static::SUPPORTED_DRIVERS);
         }
 
-        if (isset($dbConfig['read'])) {
-            $dbConfig = Arr::except(
-                array_merge($dbConfig, $dbConfig['read']), ['read', 'write']
+        if (isset($config['read'])) {
+            $config = Arr::except(
+                array_merge($config, $config['read']), ['read', 'write']
             );
         }
 
-        return $dbConfig;
+        return $config;
     }
 
-    protected static function processExtraDumpParameters(AbstractDumper &$dumper, array $config)
+    /**
+     * @param  \Arcanedev\LaravelBackup\Database\Dumpers\AbstractDumper  $dumper
+     * @param  array                                                     $config
+     */
+    protected static function processExtraDumpParameters(AbstractDumper &$dumper, array $config): void
     {
         Collection::make($config)->each(function ($value, $name) use ($dumper) {
             $methodName  = lcfirst(Str::studly(is_numeric($name) ? $value : $name));
@@ -247,6 +250,12 @@ class DbDumperManager
         });
     }
 
+    /**
+     * @param  \Arcanedev\LaravelBackup\Database\Dumpers\AbstractDumper  $dumper
+     * @param  string                                                    $methodName
+     *
+     * @return string
+     */
     protected static function determineValidMethodName(AbstractDumper &$dumper, string $methodName): string
     {
         return Collection::make([$methodName, 'set'.ucfirst($methodName)])

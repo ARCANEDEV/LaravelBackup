@@ -31,14 +31,20 @@ class PostgreSqlDumper extends AbstractDumper
     /** @var bool */
     protected $useInserts = false;
 
+    /** @var bool */
+    protected $createTables = true;
+
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
      */
 
+    /**
+     * PostgreSqlDumper constructor.
+     */
     public function __construct()
     {
-        $this->setPort(5432);
+        $this->setPort('5432');
     }
 
     /* -----------------------------------------------------------------
@@ -70,6 +76,16 @@ class PostgreSqlDumper extends AbstractDumper
             $this->getUsername(),
             $this->getPassword(),
         ]);
+    }
+
+    /**
+     * @return $this
+     */
+    public function doNotCreateTables()
+    {
+        $this->createTables = false;
+
+        return $this;
     }
 
     /* -----------------------------------------------------------------
@@ -115,11 +131,17 @@ class PostgreSqlDumper extends AbstractDumper
             "-p {$this->getPort()}",
         ])
             ->addIf($this->useInserts, '--inserts')
+            ->addUnless($this->createTables, '--data-only')
             ->addMany($this->extraOptions)
             ->addUnless(empty($this->includeTables), '-t '.implode(' -t ', $this->includeTables))
             ->addUnless(empty($this->excludeTables), '-T '.implode(' -T ', $this->excludeTables))
             ->echoToFile($dumpFile, $this->getCompressor());
     }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
 
     /**
      * Check the credentials.
@@ -135,6 +157,11 @@ class PostgreSqlDumper extends AbstractDumper
         }
     }
 
+    /**
+     * @param  string  $temporaryCredentialsFile
+     *
+     * @return array
+     */
     protected function getEnvironmentVariablesForDumpCommand(string $temporaryCredentialsFile): array
     {
         return [

@@ -19,8 +19,15 @@ class CannotStartDatabaseDump extends Exception
      | -----------------------------------------------------------------
      */
 
+    /**
+     * @param  string  $name
+     *
+     * @return static
+     */
     public static function emptyParameter(string $name): self
     {
-        return new static("Parameter `{$name}` cannot be empty.");
+        return new static(
+            __("Parameter `:name` cannot be empty.", ['name' => $name])
+        );
     }
 }

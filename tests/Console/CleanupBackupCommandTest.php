@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Console;
 
-use Arcanedev\LaravelBackup\Events\CleanupWasSuccessful;
+use Arcanedev\LaravelBackup\Entities\Notifiable;
+use Arcanedev\LaravelBackup\Events\CleanupActionWasSuccessful;
+use Arcanedev\LaravelBackup\Notifications\CleanupWasSuccessfulNotification;
 use Arcanedev\LaravelBackup\Tests\TestCase;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\{Event, Notification, Storage};
 
 /**
  * Class     CleanupBackupCommandTest
@@ -31,6 +32,7 @@ class CleanupBackupCommandTest extends TestCase
         static::createTempDirectory();
 
         Event::fake();
+        Notification::fake();
 
         static::setTestNow(2016, 1, 1, 22, 00, 00);
     }
@@ -187,7 +189,8 @@ class CleanupBackupCommandTest extends TestCase
              ->expectsOutput('Cleanup completed!')
              ->assertExitCode(0);
 
-        Event::assertDispatched(CleanupWasSuccessful::class);
+        Event::assertDispatched(CleanupActionWasSuccessful::class);
+        Notification::assertNotSentTo(new Notifiable, CleanupWasSuccessfulNotification::class);
     }
 
     /** @test */
@@ -198,7 +201,8 @@ class CleanupBackupCommandTest extends TestCase
              ->expectsOutput('Cleanup completed!')
              ->assertExitCode(0);
 
-        Event::assertNotDispatched(CleanupWasSuccessful::class);
+        Event::assertDispatched(CleanupActionWasSuccessful::class);
+        Notification::assertNotSentTo(new Notifiable, CleanupWasSuccessfulNotification::class);
     }
 
     /** @test */
@@ -209,7 +213,6 @@ class CleanupBackupCommandTest extends TestCase
         Collection::times(10)->each(function (int $number) {
             static::create1MbFileOnDisk('primary-storage', "ARCANEDEV/test{$number}.zip", Carbon::now()->subDays($number));
         });
-
 
         $this->artisan('backup:clean')
              ->expectsOutput('Starting cleanup...')

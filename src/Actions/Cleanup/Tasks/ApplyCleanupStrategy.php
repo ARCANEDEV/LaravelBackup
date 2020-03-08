@@ -48,7 +48,7 @@ class ApplyCleanupStrategy implements TaskInterface
     /**
      * Handle the task.
      *
-     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanPassable  $passable
+     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable  $passable
      * @param  \Closure                                                $next
      *
      * @return mixed

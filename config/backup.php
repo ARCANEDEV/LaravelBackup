@@ -15,11 +15,13 @@ return [
      */
 
     'destination' => [
+
         'filename-prefix' => '',
 
         'disks' => [
             'local',
         ],
+
     ],
 
     /* -----------------------------------------------------------------
@@ -49,6 +51,16 @@ return [
         ],
 
         'temporary-directory' => storage_path('app/_backup-temp'),
+
+        'tasks' => [
+            Arcanedev\LaravelBackup\Actions\Backup\Tasks\CheckOptions::class,
+            Arcanedev\LaravelBackup\Actions\Backup\Tasks\CheckBackupDestinations::class,
+            Arcanedev\LaravelBackup\Actions\Backup\Tasks\CreateTemporaryDirectory::class,
+            Arcanedev\LaravelBackup\Actions\Backup\Tasks\PrepareFilesToBackup::class,
+            Arcanedev\LaravelBackup\Actions\Backup\Tasks\CreateBackupFile::class,
+            Arcanedev\LaravelBackup\Actions\Backup\Tasks\MoveBackupToDisks::class,
+        ],
+
     ],
 
     /* -----------------------------------------------------------------
@@ -96,6 +108,11 @@ return [
             ],
         ],
 
+        'tasks' => [
+            Arcanedev\LaravelBackup\Actions\Cleanup\Tasks\CheckBackupDestinations::class,
+            Arcanedev\LaravelBackup\Actions\Cleanup\Tasks\ApplyCleanupStrategy::class,
+        ],
+
     ],
 
     /* -----------------------------------------------------------------
@@ -104,6 +121,7 @@ return [
      */
 
     'monitor'       => [
+
         'destinations' => [
             [
                 'name'          => env('APP_NAME', 'laravel-backup'),
@@ -125,6 +143,11 @@ return [
             ],
             */
         ],
+
+        'tasks' => [
+            Arcanedev\LaravelBackup\Actions\Monitor\Tasks\CheckBackupsHealth::class,
+        ],
+
     ],
 
     /* -----------------------------------------------------------------
@@ -133,7 +156,74 @@ return [
      */
 
     'notifications' => [
-        //
+
+        'supported' => [
+            Arcanedev\LaravelBackup\Notifications\BackupWasSuccessfulNotification::class      => ['mail'],
+            Arcanedev\LaravelBackup\Notifications\BackupHasFailedNotification::class          => ['mail'],
+
+            Arcanedev\LaravelBackup\Notifications\CleanupWasSuccessfulNotification::class     => ['mail'],
+            Arcanedev\LaravelBackup\Notifications\CleanupHasFailedNotification::class         => ['mail'],
+
+            Arcanedev\LaravelBackup\Notifications\HealthyBackupsWasFoundNotification::class   => ['mail'],
+            Arcanedev\LaravelBackup\Notifications\UnhealthyBackupsWasFoundNotification::class => ['mail'],
+        ],
+
+        /*
+         * Here you can specify the notifiable to which the notifications should be sent. The default
+         * notifiable will use the variables specified in this config file.
+         */
+        'notifiable' => Arcanedev\LaravelBackup\Entities\Notifiable::class,
+
+        'mail' => [
+            'to'   => 'your@example.com',
+            'from' => [
+                'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+                'name'    => env('MAIL_FROM_NAME', 'Example'),
+            ],
+        ],
+
+        'slack' => [
+            'webhook_url' => '',
+
+            /* If this is set to null the default channel of the webhook will be used. */
+            'channel'     => null,
+            'username'    => null,
+            'icon'        => null,
+        ],
+
+    ],
+
+    /* -----------------------------------------------------------------
+     |  Events
+     | -----------------------------------------------------------------
+     */
+
+    'events'        => [
+
+        // Backup Action
+        Arcanedev\LaravelBackup\Events\BackupActionWasSuccessful::class  => [
+            Arcanedev\LaravelBackup\Listeners\SendBackupWasSuccessfulNotification::class,
+        ],
+        Arcanedev\LaravelBackup\Events\BackupActionHasFailed::class      => [
+            Arcanedev\LaravelBackup\Listeners\SendBackupHasFailedNotification::class
+        ],
+
+        // Cleanup Action
+        Arcanedev\LaravelBackup\Events\CleanupActionWasSuccessful::class => [
+            Arcanedev\LaravelBackup\Listeners\SendCleanupWasSuccessfulNotification::class
+        ],
+        Arcanedev\LaravelBackup\Events\CleanupActionHasFailed::class     => [
+            Arcanedev\LaravelBackup\Listeners\SendCleanupHasFailedNotification::class
+        ],
+
+        // Monitor Action
+        Arcanedev\LaravelBackup\Events\HealthyBackupsWasFound::class      => [
+            Arcanedev\LaravelBackup\Listeners\SendHealthyBackupWasFoundNotification::class
+        ],
+        Arcanedev\LaravelBackup\Events\UnhealthyBackupsWasFound::class    => [
+            Arcanedev\LaravelBackup\Listeners\SendUnhealthyBackupWasFoundNotification::class
+        ],
+
     ],
 
 ];

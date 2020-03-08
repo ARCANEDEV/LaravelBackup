@@ -21,4 +21,4 @@ RUN docker-php-ext-install \
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Copy PHP config file
-COPY config/php-dev.ini /usr/local/etc/php/php.ini
+COPY config/php.ini /usr/local/etc/php/php.ini

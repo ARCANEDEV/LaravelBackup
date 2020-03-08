@@ -20,11 +20,39 @@ abstract class Action extends Pipeline
      */
 
     /**
-     * Run the task.
+     * Execute the action.
      *
      * @param  array  $options
      *
-     * @return mixed
+     * @return \Arcanedev\LaravelBackup\Actions\Passable|mixed
      */
-    abstract public function run(array $options);
+    public function execute(array $options)
+    {
+        return $this
+            ->send($this->makePassable($options))
+            ->then(function (Passable $passable) {
+                return $this->handleOnSuccess($passable);
+            });
+    }
+
+    /**
+     * Make the passable.
+     *
+     * @param  array  $options
+     *
+     * @return \Arcanedev\LaravelBackup\Actions\Passable|mixed
+     */
+    abstract protected function makePassable(array $options);
+
+    /**
+     * Handle the passable on success.
+     *
+     * @param  \Arcanedev\LaravelBackup\Actions\Passable|mixed  $passable
+     *
+     * @return \Arcanedev\LaravelBackup\Actions\Passable|mixed
+     */
+    protected function handleOnSuccess($passable)
+    {
+        return $passable;
+    }
 }

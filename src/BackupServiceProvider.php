@@ -39,8 +39,9 @@ class BackupServiceProvider extends PackageServiceProvider
         $this->registerConfig();
 
         $this->singleton(Database\DbDumperManager::class);
-
         $this->singleton(Actions\Cleanup\Strategies\CleanupStrategy::class, Actions\Cleanup\Strategies\DefaultStrategy::class);
+
+        $this->registerProvider(Providers\EventServiceProvider::class);
 
         $this->registerCommands([
             Console\RunBackupCommand::class,
@@ -54,6 +55,8 @@ class BackupServiceProvider extends PackageServiceProvider
      */
     public function boot(): void
     {
+        $this->loadJsonTranslationsFrom(__DIR__.'../translations');
+
         if ($this->app->runningInConsole()) {
             $this->publishConfig();
         }

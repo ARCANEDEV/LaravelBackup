@@ -44,7 +44,7 @@ class MongoDbDumper extends AbstractDumper
      */
     public function __construct()
     {
-        $this->setPort(27017);
+        $this->setPort('27017');
     }
 
     /* -----------------------------------------------------------------

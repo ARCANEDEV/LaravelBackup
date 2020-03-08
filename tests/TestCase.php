@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Tests;
 
 use Arcanedev\LaravelBackup\BackupServiceProvider;
+use Arcanedev\LaravelBackup\Providers\DeferredServiceProvider;
 use Illuminate\Contracts\Config\Repository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -53,7 +54,8 @@ abstract class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [
-            BackupServiceProvider::class
+            BackupServiceProvider::class,
+            DeferredServiceProvider::class,
         ];
     }
 

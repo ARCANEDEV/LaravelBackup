@@ -42,38 +42,23 @@ class RunBackupCommand extends Command
      */
     public function handle(BackupAction $action): int
     {
-        $this->comment('Starting backup...');
+        $this->comment(__('Starting backup...'));
 
         try {
-            $options = $this->getCommandOptions();
+            $options = Arr::only($this->options(), [
+                'filename', 'only-db', 'db-name', 'only-files', 'only-to-disk', 'disable-notifications',
+            ]);
 
-            $action->run($options);
+            $action->execute($options);
 
-            $this->comment('Backup completed!');
+            $this->comment(__('Backup completed!'));
 
             return 0;
         }
         catch (Exception $e) {
-            $this->error("Backup failed because: {$e->getMessage()}");
+            $this->error(__('Backup failed because: :message', ['message' => $e->getMessage()]));
 
             return 1;
         }
-    }
-
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Get the commands options.
-     *
-     * @return array
-     */
-    private function getCommandOptions(): array
-    {
-        return Arr::only($this->options(), [
-            'filename', 'only-db', 'db-name', 'only-files', 'only-to-disk', 'disable-notifications',
-        ]);
     }
 }

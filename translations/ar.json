@@ -1,0 +1,33 @@
+{
+    "Exception message: :message": "",
+    "Exception trace: :trace": "",
+    "Exception message": "",
+    "Exception trace": "",
+
+    "Failed backup of :application_name": "",
+    "Important: An error occurred while backing up :application_name": "",
+
+    "Successful new backup of :application_name": "",
+    "Successful new backup!": "",
+    "Great news, a new backup of :application_name was successfully created on the disk named :disk_name.": "",
+
+    "Cleaning up the backups of :application_name failed.": "",
+    "An error occurred while cleaning up the backups of :application_name": "",
+
+    "Clean up of :application_name backups successful": "",
+    "Clean up of backups successful!": "",
+    "The clean up of the :application_name backups on the disk named :disk_name was successful.": "",
+
+    "The backups for :application_name on disk :disk_name are healthy": "",
+    "The backups for :application_name are healthy": "",
+    "The backups for :application_name are considered healthy. Good job!": "",
+
+    "Important: The backups for :application_name are unhealthy": "",
+    "Important: The backups for :application_name are unhealthy. :problem": "",
+    "The backups for :application_name on disk :disk_name are unhealthy.": "",
+    "The backup destination cannot be reached. :error": "",
+    "There are no backups of this application at all.": "",
+    "The latest backup made on :date is considered too old.": "",
+    "Sorry, an exact reason cannot be determined.": "",
+    "The backups are using too much storage. Current usage is :disk_usage which is higher than the allowed limit of :disk_limit.": ""
+}

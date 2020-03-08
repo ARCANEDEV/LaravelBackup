@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Events;
 
-use Arcanedev\LaravelBackup\Actions\Cleanup\CleanPassable;
+use Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable;
 use Exception;
 
 /**
- * Class     CleanActionHasFailed
+ * Class     CleanupActionHasFailed
  *
  * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class CleanActionHasFailed
+class CleanupActionHasFailed
 {
     /* -----------------------------------------------------------------
      |  Properties
@@ -21,7 +21,7 @@ class CleanActionHasFailed
      */
 
     /**
-     * @var \Arcanedev\LaravelBackup\Actions\Cleanup\CleanPassable
+     * @var \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable
      */
     public $passable;
 
@@ -37,10 +37,11 @@ class CleanActionHasFailed
 
     /**
      * CleanActionHasFailed constructor.
-     * @param  \Exception                                            $exception
-     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanPassable  $passable
+     *
+     * @param  \Exception                                              $exception
+     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable  $passable
      */
-    public function __construct(CleanPassable $passable, Exception $exception)
+    public function __construct(CleanupPassable $passable, Exception $exception)
     {
         $this->passable  = $passable;
         $this->exception = $exception;

@@ -70,7 +70,7 @@ class MySqlDumper extends AbstractDumper
      */
     public function __construct()
     {
-        $this->setPort(3306);
+        $this->setPort('3306');
     }
 
     /* -----------------------------------------------------------------
@@ -139,6 +139,8 @@ class MySqlDumper extends AbstractDumper
     }
 
     /**
+     * Skip the lock tables.
+     *
      * @return $this
      */
     public function skipLockTables()
@@ -149,6 +151,8 @@ class MySqlDumper extends AbstractDumper
     }
 
     /**
+     * Don't skip the lock tables.
+     *
      * @return $this
      */
     public function dontSkipLockTables()
@@ -179,6 +183,8 @@ class MySqlDumper extends AbstractDumper
     }
 
     /**
+     * Set the default character set.
+     *
      * @param  string  $characterSet
      *
      * @return $this
@@ -203,6 +209,8 @@ class MySqlDumper extends AbstractDumper
     }
 
     /**
+     * Do not create tables.
+     *
      * @return $this
      */
     public function doNotCreateTables()

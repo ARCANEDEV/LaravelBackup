@@ -88,10 +88,14 @@ class FileSelectorTest extends TestCase
         $expected = $this->getTestFiles([
             '.dotfile',
             '1Mb.file',
+            'directory-1',
+            'directory-1/sub-directory-1',
             'directory-1/sub-directory-1/file-1.txt',
             'directory-1/sub-directory-1/file-2.txt',
             'directory-1/file-1.txt',
             'directory-1/file-2.txt',
+            'directory-2',
+            'directory-2/sub-directory-1',
             'directory-2/sub-directory-1/file-1.txt',
             'file-1.txt',
             'file-2.txt',
@@ -112,6 +116,8 @@ class FileSelectorTest extends TestCase
         $expected = $this->getTestFiles([
             '.dotfile',
             '1Mb.file',
+            'directory-2',
+            'directory-2/sub-directory-1',
             'directory-2/sub-directory-1/file-1.txt',
             'file-1.txt',
             'file-2.txt',
@@ -132,8 +138,10 @@ class FileSelectorTest extends TestCase
         $expected = $this->getTestFiles([
             '.dotfile',
             '1Mb.file',
+            'directory-1',
             'directory-1/file-1.txt',
             'directory-1/file-2.txt',
+            'directory-2',
             'file-1.txt',
             'file-2.txt',
             'file-3.txt',
@@ -175,6 +183,7 @@ class FileSelectorTest extends TestCase
         $expected = $this->getTestFiles([
             '.dotfile',
             '1Mb.file',
+            'directory-1',
             'directory-1/file-1.txt',
             'directory-1/file-2.txt',
             'file-1.txt',

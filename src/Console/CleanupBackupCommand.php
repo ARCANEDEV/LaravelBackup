@@ -44,45 +44,33 @@ class CleanupBackupCommand extends Command
      */
     public function handle(CleanAction $action): int
     {
-        $this->comment('Starting cleanup...');
+        $this->comment(__('Starting cleanup...'));
 
         try {
-            $options  = $this->getCommandOptions();
-            $passable = $action->run($options);
+            $options  = Arr::only($this->options(), [
+                'disable-notifications',
+            ]);
+
+            $passable = $action->execute($options);
 
             $passable->getBackupDestinations()->each(function (BackupDestination $destination) {
-                $usedStorage = Format::humanReadableSize($destination->fresh()->usedStorage());
-
                 $this->info(
-                    "Used storage after cleanup the {$destination->backupName()} on disk [{$destination->diskName()}] : {$usedStorage}"
+                    __("Used storage after cleanup the :backup_name on disk [:disk_name] : :used_storage", [
+                        'backup_name'  => $destination->backupName(),
+                        'disk_name'    => $destination->diskName(),
+                        'used_storage' => Format::humanReadableSize($destination->fresh()->usedStorage()),
+                    ])
                 );
             });
 
-            $this->comment('Cleanup completed!');
+            $this->comment(__('Cleanup completed!'));
 
             return 0;
         }
         catch (Exception $e) {
-            $this->error("Cleanup failed because: {$e->getMessage()}");
+            $this->error(__("Cleanup failed because: :message", ['message' => $e->getMessage()]));
 
             return 1;
         }
-    }
-
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Get the commands options.
-     *
-     * @return array
-     */
-    private function getCommandOptions(): array
-    {
-        return Arr::only($this->options(), [
-            'disable-notifications',
-        ]);
     }
 }

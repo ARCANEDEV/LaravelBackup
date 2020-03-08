@@ -24,8 +24,8 @@ class CheckBackupDestinations implements TaskInterface
     /**
      * Handle the task.
      *
-     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanPassable  $passable
-     * @param  \Closure                                                $next
+     * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable  $passable
+     * @param  \Closure                                                  $next
      *
      * @return mixed
      */
