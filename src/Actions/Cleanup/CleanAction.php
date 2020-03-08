@@ -6,7 +6,7 @@ namespace Arcanedev\LaravelBackup\Actions\Cleanup;
 
 use Arcanedev\LaravelBackup\Actions\Action;
 use Arcanedev\LaravelBackup\Events\{CleanupActionHasFailed, CleanupActionWasSuccessful};
-use Exception;
+use Throwable;
 
 /**
  * Class     CleanAction
@@ -71,13 +71,13 @@ class CleanAction extends Action
      * Handle the given exception.
      *
      * @param  \Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable|mixed  $passable
-     * @param  \Exception                                                      $e
+     * @param  \Throwable                                                      $e
      *
      * @return mixed|void
      *
      * @throws \Exception
      */
-    protected function handleException($passable, Exception $e)
+    protected function handleException($passable, Throwable $e)
     {
         event(new CleanupActionHasFailed($passable, $e));
 

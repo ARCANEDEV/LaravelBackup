@@ -6,7 +6,7 @@ namespace Arcanedev\LaravelBackup\Actions\Monitor;
 
 use Arcanedev\LaravelBackup\Actions\Action;
 use Arcanedev\LaravelBackup\Events\{MonitorActionHasFailed, MonitorActionWasSuccessful};
-use Exception;
+use Throwable;
 
 /**
  * Class     MonitorAction
@@ -71,13 +71,13 @@ class MonitorAction extends Action
      * Handle the given exception.
      *
      * @param  \Arcanedev\LaravelBackup\Actions\Monitor\MonitorPassable|mixed  $passable
-     * @param  \Exception                                                      $e
+     * @param  \Throwable                                                      $e
      *
      * @return mixed|void
      *
      * @throws \Exception
      */
-    protected function handleException($passable, Exception $e)
+    protected function handleException($passable, Throwable $e)
     {
         event(new MonitorActionHasFailed($passable, $e));
 

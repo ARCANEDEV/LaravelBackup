@@ -55,10 +55,11 @@ class BackupServiceProvider extends PackageServiceProvider
      */
     public function boot(): void
     {
-        $this->loadJsonTranslationsFrom(__DIR__.'../translations');
+        $this->loadTranslations();
 
         if ($this->app->runningInConsole()) {
             $this->publishConfig();
+            $this->publishTranslations();
         }
     }
 }
