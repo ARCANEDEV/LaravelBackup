@@ -9,7 +9,6 @@ use Arcanedev\LaravelBackup\Tests\TestCase;
 /**
  * Class     DumpTestCase
  *
- * @package  Arcanedev\LaravelBackup\Tests\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class DumpTestCase extends TestCase

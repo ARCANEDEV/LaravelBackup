@@ -11,7 +11,6 @@ use Generator;
 /**
  * Class     FileSelectorTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class FileSelectorTest extends TestCase

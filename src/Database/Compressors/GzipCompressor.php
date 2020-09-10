@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arcanedev\LaravelBackup\Database\Compressors;
 
 use Arcanedev\LaravelBackup\Database\Contracts\Compressor;
@@ -7,7 +9,6 @@ use Arcanedev\LaravelBackup\Database\Contracts\Compressor;
 /**
  * Class     GzipCompressor
  *
- * @package  Arcanedev\LaravelBackup\Database\Compressors
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class GzipCompressor implements Compressor

@@ -9,7 +9,6 @@ use Arcanedev\LaravelBackup\Exceptions\CannotSetDatabaseParameter;
 /**
  * Trait     HasDbConnection
  *
- * @package  Arcanedev\LaravelBackup\Database\Dumpers\Concerns
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 trait HasDbConnection
@@ -141,8 +140,15 @@ trait HasDbConnection
      */
     public function getPort(): ?string
     {
-        return $this->port;
+        return $this->port ?: $this->getDefaultPort();
     }
+
+    /**
+     * Get the default port.
+     *
+     * @return string|null
+     */
+    abstract protected function getDefaultPort(): ?string;
 
     /**
      * Set the socket.

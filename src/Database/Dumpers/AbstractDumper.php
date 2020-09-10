@@ -11,7 +11,6 @@ use Symfony\Component\Process\Process;
 /**
  * Class     AbstractDumper
  *
- * @package  Arcanedev\LaravelBackup\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class AbstractDumper

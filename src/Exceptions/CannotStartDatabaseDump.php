@@ -9,7 +9,6 @@ use Exception;
 /**
  * Class     CannotStartDatabaseDump
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CannotStartDatabaseDump extends Exception

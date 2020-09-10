@@ -9,7 +9,6 @@ use Illuminate\Pipeline\Pipeline;
 /**
  * Class     Action
  *
- * @package  Arcanedev\LaravelBackup\Actions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class Action extends Pipeline

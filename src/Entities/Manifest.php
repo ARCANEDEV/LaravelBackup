@@ -11,7 +11,6 @@ use JsonSerializable;
 /**
  * Class     Manifest
  *
- * @package  Arcanedev\LaravelBackup\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Manifest implements Arrayable, JsonSerializable

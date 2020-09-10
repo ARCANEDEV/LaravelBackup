@@ -8,9 +8,8 @@ use Arcanedev\LaravelBackup\Entities\BackupDestination;
 use Illuminate\Notifications\Messages\{MailMessage, SlackAttachment, SlackMessage};
 
 /**
- * Class     BackupActionHasFailedNotification
+ * Class     BackupHasFailedNotification
  *
- * @package  Arcanedev\LaravelBackup\Notifications
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupHasFailedNotification extends AbstractNotification

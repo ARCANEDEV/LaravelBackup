@@ -10,7 +10,6 @@ use Arcanedev\LaravelBackup\Tests\TestCase;
 /**
  * Class     ZipTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ZipTest extends TestCase

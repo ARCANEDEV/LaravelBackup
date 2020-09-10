@@ -10,7 +10,6 @@ use Arcanedev\LaravelBackup\Helpers\Format;
 /**
  * Class     MaximumStorageInMegabytes
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MaximumStorageInMegabytes extends AbstractHealthCheck

@@ -9,7 +9,6 @@ use Arcanedev\Support\Providers\EventServiceProvider as ServiceProvider;
 /**
  * Class     EventServiceProvider
  *
- * @package  Arcanedev\LaravelBackup\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class EventServiceProvider extends ServiceProvider

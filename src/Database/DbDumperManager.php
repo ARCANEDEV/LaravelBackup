@@ -5,18 +5,23 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Database;
 
 use Arcanedev\LaravelBackup\Database\Dumpers\{
-    AbstractDumper, MongoDbDumper, MySqlDumper, PostgreSqlDumper, SqliteDumper
-};
+    AbstractDumper,
+    MongoDbDumper,
+    MySqlDumper,
+    PostgreSqlDumper,
+    SqliteDumper};
 use Arcanedev\LaravelBackup\Exceptions\CannotCreateDbDumper;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\ConfigurationUrlParser;
-use Illuminate\Support\{Arr, Collection, Str};
+use Illuminate\Support\{
+    Arr,
+    Collection,
+    Str};
 
 /**
  * Class     DbDumperManager
  *
- * @package  Arcanedev\LaravelBackup\Database
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DbDumperManager
@@ -171,13 +176,18 @@ class DbDumperManager
      */
     protected function createDumperWithConnection(string $class, array $config): AbstractDumper
     {
-        return tap($this->createDumper($class, $config), function ($dumper) use ($config) {
+        return tap($this->createDumper($class, $config), function ($dumper) use ($config): void {
+            /** @var  \Arcanedev\LaravelBackup\Database\Dumpers\Concerns\HasDbConnection  $dumper */
             $dumper->setHost(Arr::first(Arr::wrap($config['host'] ?? '')))
                    ->setUserName($config['username'] ?? '')
                    ->setPassword($config['password'] ?? '');
 
             if (isset($config['port'])) {
                 $dumper->setPort((string) $config['port']);
+            }
+
+            if (isset($config['unix_socket'])) {
+                $dumper->setSocket($config['unix_socket']);
             }
         });
     }
@@ -197,6 +207,10 @@ class DbDumperManager
 
             if (isset($config['dump'])) {
                 static::processExtraDumpParameters($dumper, $config['dump']);
+            }
+
+            if ($compressor = $this->app['config']['backup.backup.db-dump-compressor']) {
+                $dumper->setCompressor($this->app->make($compressor));
             }
         });
     }

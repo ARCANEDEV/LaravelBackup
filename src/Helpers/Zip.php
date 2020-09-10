@@ -13,7 +13,6 @@ use ZipArchive;
 /**
  * Class     Zip
  *
- * @package  Arcanedev\LaravelBackup\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
  * @mixin  \ZipArchive

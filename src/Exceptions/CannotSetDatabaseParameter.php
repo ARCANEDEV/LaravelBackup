@@ -9,7 +9,6 @@ use Exception;
 /**
  * Class     CannotSetDatabaseParameter
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CannotSetDatabaseParameter extends Exception

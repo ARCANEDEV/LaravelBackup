@@ -7,15 +7,22 @@ namespace Arcanedev\LaravelBackup\Entities;
 use Arcanedev\LaravelBackup\Helpers\Format;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use InvalidArgumentException;
 
 /**
  * Class     Backup
  *
- * @package  Arcanedev\LaravelBackup\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Backup
 {
+    /* -----------------------------------------------------------------
+     |  Constants
+     | -----------------------------------------------------------------
+     */
+
+    public const FILENAME_FORMAT = 'Ymd-His.\z\i\p';
+
     /* -----------------------------------------------------------------
      |  Traits
      | -----------------------------------------------------------------
@@ -55,6 +62,8 @@ class Backup
     {
         $this->setDisk($disk);
         $this->setPath($path);
+
+        $this->exists = true;
     }
 
     /* -----------------------------------------------------------------
@@ -108,7 +117,14 @@ class Backup
     public function date(): Carbon
     {
         if ($this->date === null) {
-            $this->date = Carbon::createFromTimestamp($this->disk()->lastModified($this->path()));
+            try {
+                // try to parse the date from the filename
+                $this->date = Carbon::createFromFormat(static::FILENAME_FORMAT, basename($this->path));
+            }
+            catch (InvalidArgumentException $e) {
+                // if that fails, ask the (remote) filesystem
+                $this->date = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
+            }
         }
 
         return $this->date;
@@ -159,8 +175,8 @@ class Backup
      */
     public function delete(): bool
     {
-        $this->exists = null;
-
-        return $this->disk()->delete($this->path());
+        return tap($this->disk()->delete($this->path()), function () {
+            $this->exists = false;
+        });
     }
 }

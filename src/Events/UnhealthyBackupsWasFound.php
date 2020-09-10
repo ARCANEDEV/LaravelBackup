@@ -10,7 +10,6 @@ use Arcanedev\LaravelBackup\Entities\BackupDestinationStatusCollection;
 /**
  * Class     UnhealthyBackupsWasFound
  *
- * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UnhealthyBackupsWasFound

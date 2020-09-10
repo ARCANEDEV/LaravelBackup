@@ -10,7 +10,6 @@ use Illuminate\Notifications\Messages\{MailMessage, SlackAttachment, SlackMessag
 /**
  * Class     BackupWasSuccessfulNotification
  *
- * @package  Arcanedev\LaravelBackup\Notifications
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupWasSuccessfulNotification extends AbstractNotification

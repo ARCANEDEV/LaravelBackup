@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Exceptions;
 
+use Exception;
 use ZipArchive;
 
 /**
  * Class     ZipException
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class ZipException extends \Exception
+class ZipException extends Exception
 {
     /* -----------------------------------------------------------------
      |  Constants

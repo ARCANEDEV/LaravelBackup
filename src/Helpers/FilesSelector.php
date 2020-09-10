@@ -12,7 +12,6 @@ use Symfony\Component\Finder\Finder;
 /**
  * Class     FilesSelector
  *
- * @package  Arcanedev\LaravelBackup\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class FilesSelector
@@ -33,6 +32,9 @@ class FilesSelector
 
     /** @var  bool */
     protected $shouldFollowLinks = false;
+
+    /** @var  bool */
+    protected $shouldIgnoreUnreadableDirectories = false;
 
     /* -----------------------------------------------------------------
      |  Constructor
@@ -133,6 +135,20 @@ class FilesSelector
         return $this;
     }
 
+    /**
+     * Set if it should ignore the unreadable directories.
+     *
+     * @param  bool  $ignoreUnreadableDirectories
+     *
+     * @return $this
+     */
+    public function shouldIgnoreUnreadableDirs(bool $ignoreUnreadableDirectories): self
+    {
+        $this->shouldIgnoreUnreadableDirectories = $ignoreUnreadableDirectories;
+
+        return $this;
+    }
+
     /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
@@ -164,6 +180,10 @@ class FilesSelector
 
         if ($this->shouldFollowLinks) {
             $this->finder->followLinks();
+        }
+
+        if ($this->shouldIgnoreUnreadableDirectories) {
+            $this->finder->ignoreUnreadableDirs();
         }
 
         /**

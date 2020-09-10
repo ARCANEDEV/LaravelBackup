@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 /**
  * Class     AbstractHealthCheck
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class AbstractHealthCheck implements HealthCheckable

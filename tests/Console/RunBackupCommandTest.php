@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Console;
 
+use Arcanedev\LaravelBackup\Database\Compressors\GzipCompressor;
 use Arcanedev\LaravelBackup\Entities\Notifiable;
 use Arcanedev\LaravelBackup\Events\{
     BackupActionHasFailed, BackupActionWasSuccessful, BackupManifestWasCreated, BackupZipWasCreated,
@@ -11,11 +12,11 @@ use Arcanedev\LaravelBackup\Events\{
 use Arcanedev\LaravelBackup\Notifications\BackupWasSuccessfulNotification;
 use Arcanedev\LaravelBackup\Tests\TestCase;
 use Illuminate\Support\Facades\{Event, Notification, Storage};
+use Illuminate\Console\Command;
 
 /**
  * Class     RunBackupCommandTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Console
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RunBackupCommandTest extends TestCase
@@ -47,7 +48,7 @@ class RunBackupCommandTest extends TestCase
         $this->artisan('backup:run')
              ->expectsOutput('Starting backup...')
              ->expectsOutput('Backup completed!')
-             ->assertExitCode(0);
+             ->assertExitCode(Command::SUCCESS);
 
         static::assertBackupsExistsInStorages();
 
@@ -66,7 +67,7 @@ class RunBackupCommandTest extends TestCase
         $this->artisan('backup:run --disable-notifications')
              ->expectsOutput('Starting backup...')
              ->expectsOutput('Backup completed!')
-             ->assertExitCode(0);
+             ->assertExitCode(Command::SUCCESS);
 
         static::assertBackupsExistsInStorages();
 
@@ -83,7 +84,7 @@ class RunBackupCommandTest extends TestCase
         $this->artisan('backup:run --only-files --only-db')
              ->expectsOutput('Starting backup...')
              ->expectsOutput('Backup failed because: Cannot use `only-db` and `only-files` together')
-             ->assertExitCode(1);
+             ->assertExitCode(Command::FAILURE);
 
         static::assertBackupsMissingInStorages();
 
@@ -92,6 +93,29 @@ class RunBackupCommandTest extends TestCase
         Event::assertNotDispatched(BackupActionWasSuccessful::class);
         Event::assertNotDispatched(BackupManifestWasCreated::class);
         Event::assertNotDispatched(BackupZipWasCreated::class);
+    }
+
+    /** @test */
+    public function it_can_run_backup_with_compressor(): void
+    {
+        $this->app['config']->set('backup.backup.db-dump-compressor', GzipCompressor::class);
+
+        $this->artisan('backup:run --only-db')
+            ->expectsOutput('Starting backup...')
+            ->assertExitCode(Command::SUCCESS);
+
+        static::assertBackupsExistsInStorages();
+
+        static::assertBackupFilesExistsInZipFile([
+            'databases/dump-sqlite-db-1.sql.gz',
+            'databases/dump-sqlite-db-2.sql.gz',
+        ]);
+
+        Event::assertDispatched(BackupManifestWasCreated::class);
+        Event::assertDispatched(BackupZipWasCreated::class);
+        Event::assertDispatched(BackupActionWasSuccessful::class);
+
+        Event::assertNotDispatched(BackupActionHasFailed::class);
     }
 
     /* -----------------------------------------------------------------
@@ -111,6 +135,15 @@ class RunBackupCommandTest extends TestCase
     {
         foreach ($disks as $disk) {
             Storage::disk($disk)->assertExists('ARCANEDEV/20190101-123030.zip');
+        }
+    }
+
+    protected static function assertBackupFilesExistsInZipFile(array $files, array $disks = ['primary-storage', 'secondary-storage'])
+    {
+        foreach ($disks as $disk) {
+            $path = Storage::disk($disk)->path('ARCANEDEV/20190101-123030.zip');
+
+            static::assertFilesExistsInZipArchive($path, $files);
         }
     }
 

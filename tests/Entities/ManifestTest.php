@@ -10,7 +10,6 @@ use Arcanedev\LaravelBackup\Tests\TestCase;
 /**
  * Class     ManifestTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ManifestTest extends TestCase

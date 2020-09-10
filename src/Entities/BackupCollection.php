@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Entities;
 
-use Arcanedev\LaravelBackup\Helpers\FileChecker;
-use Arcanedev\LaravelBackup\Helpers\Format;
+use Arcanedev\LaravelBackup\Helpers\{FileChecker, Format};
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
@@ -13,7 +12,6 @@ use Illuminate\Support\Collection;
 /**
  * Class     BackupCollection
  *
- * @package  Arcanedev\LaravelBackup\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupCollection extends Collection

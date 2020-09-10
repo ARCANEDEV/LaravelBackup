@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks;
 
-use Arcanedev\LaravelBackup\Entities\Backup;
-use Arcanedev\LaravelBackup\Entities\BackupDestination;
+use Arcanedev\LaravelBackup\Entities\{Backup, BackupDestination};
 use Carbon\Carbon;
 
 /**
  * Class     MaximumAgeInDays
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MaximumAgeInDays extends AbstractHealthCheck

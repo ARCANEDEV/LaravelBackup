@@ -10,7 +10,6 @@ use Arcanedev\LaravelBackup\Entities\BackupDestinationStatusCollection;
 /**
  * Class     MonitorPassable
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MonitorPassable extends Passable

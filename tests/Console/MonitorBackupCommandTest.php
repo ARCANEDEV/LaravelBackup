@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Event;
 /**
  * Class     MonitorBackupCommandTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Console
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MonitorBackupCommandTest extends TestCase

@@ -9,7 +9,6 @@ use Illuminate\Notifications\Notifiable as NotifiableTrait;
 /**
  * Class     Notifiable
  *
- * @package  Arcanedev\LaravelBackup\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Notifiable

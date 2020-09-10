@@ -11,7 +11,6 @@ use Throwable;
 /**
  * Class     CleanAction
  *
- * @package  Arcanedev\LaravelBackup\Actions\Cleanup
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CleanAction extends Action

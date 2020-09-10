@@ -6,13 +6,11 @@ namespace Arcanedev\LaravelBackup\Tests\Database\Dumpers;
 
 use Arcanedev\LaravelBackup\Database\Compressors\GzipCompressor;
 use Arcanedev\LaravelBackup\Database\Dumpers\MySqlDumper;
-use Arcanedev\LaravelBackup\Exceptions\CannotSetDatabaseParameter;
-use Arcanedev\LaravelBackup\Exceptions\CannotStartDatabaseDump;
+use Arcanedev\LaravelBackup\Exceptions\{CannotSetDatabaseParameter, CannotStartDatabaseDump};
 
 /**
  * Class     MySqlDumperTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MySqlDumperTest extends DumpTestCase

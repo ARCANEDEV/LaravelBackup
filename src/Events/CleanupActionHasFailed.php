@@ -10,7 +10,6 @@ use Exception;
 /**
  * Class     CleanupActionHasFailed
  *
- * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CleanupActionHasFailed

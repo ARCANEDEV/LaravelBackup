@@ -8,10 +8,9 @@ use Arcanedev\LaravelBackup\Entities\BackupCollection;
 use Illuminate\Support\Collection;
 
 /**
- * Interface     CleanupStrategy
+ * Interface  CleanupStrategy
  *
- * @package  Arcanedev\LaravelBackup\Actions\Cleanup\Strategies
- * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface CleanupStrategy
 {

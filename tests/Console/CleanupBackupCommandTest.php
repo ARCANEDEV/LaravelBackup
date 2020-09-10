@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\{Event, Notification, Storage};
 /**
  * Class     CleanupBackupCommandTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Console
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CleanupBackupCommandTest extends TestCase

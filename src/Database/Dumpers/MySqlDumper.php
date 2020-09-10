@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Exceptions\CannotStartDatabaseDump;
 /**
  * Class     MySqlDumper
  *
- * @package  Arcanedev\LaravelBackup\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MySqlDumper extends AbstractDumper
@@ -61,22 +60,19 @@ class MySqlDumper extends AbstractDumper
     protected $createTables = true;
 
     /* -----------------------------------------------------------------
-     |  Constructor
+     |  Setters & Getters
      | -----------------------------------------------------------------
      */
 
     /**
-     * MySqlDumper constructor.
+     * Get the default port.
+     *
+     * @return string
      */
-    public function __construct()
+    protected function getDefaultPort(): string
     {
-        $this->setPort('3306');
+        return '3306';
     }
-
-    /* -----------------------------------------------------------------
-     |  Setters & Getters
-     | -----------------------------------------------------------------
-     */
 
     /**
      * @return $this

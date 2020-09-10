@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arcanedev\LaravelBackup\Tests\Concerns;
 
 use DateTime;
@@ -8,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Trait     HasDisksManipulation
  *
- * @package  Arcanedev\LaravelBackup\Tests\Concerns
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 trait HasDisksManipulation

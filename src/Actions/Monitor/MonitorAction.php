@@ -11,7 +11,6 @@ use Throwable;
 /**
  * Class     MonitorAction
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MonitorAction extends Action

@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Exceptions\CannotStartDatabaseDump;
 /**
  * Class     PostgreSqlDumper
  *
- * @package  Arcanedev\LaravelBackup\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class PostgreSqlDumper extends AbstractDumper
@@ -35,22 +34,19 @@ class PostgreSqlDumper extends AbstractDumper
     protected $createTables = true;
 
     /* -----------------------------------------------------------------
-     |  Constructor
+     |  Getters & Setters
      | -----------------------------------------------------------------
      */
 
     /**
-     * PostgreSqlDumper constructor.
+     * Get the default port.
+     *
+     * @return string
      */
-    public function __construct()
+    protected function getDefaultPort(): string
     {
-        $this->setPort('5432');
+        return '5432';
     }
-
-    /* -----------------------------------------------------------------
-     |  Getters & Setters
-     | -----------------------------------------------------------------
-     */
 
     /**
      * @return $this
@@ -112,7 +108,7 @@ class PostgreSqlDumper extends AbstractDumper
             $this->getEnvironmentVariablesForDumpCommand($temporaryCredentialsFile)
         );
 
-        $this->checkIfDumpWasSuccessFul($process, $dumpFile);
+        static::checkIfDumpWasSuccessFul($process, $dumpFile);
     }
 
     /**

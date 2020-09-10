@@ -10,7 +10,6 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 /**
  * Class     FileChecker
  *
- * @package  Arcanedev\LaravelBackup\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class FileChecker

@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 /**
  * Class     Period
  *
- * @package  Arcanedev\LaravelBackup\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Period

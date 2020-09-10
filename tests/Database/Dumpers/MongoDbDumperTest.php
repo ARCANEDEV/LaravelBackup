@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Exceptions\CannotStartDatabaseDump;
 /**
  * Class     MongoDbDumperTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MongoDbDumperTest extends DumpTestCase

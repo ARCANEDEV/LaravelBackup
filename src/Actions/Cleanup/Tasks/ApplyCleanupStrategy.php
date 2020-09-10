@@ -12,7 +12,6 @@ use Closure;
 /**
  * Class     ApplyCleanupStrategy
  *
- * @package  Arcanedev\LaravelBackup\Actions\Cleanup\Tasks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ApplyCleanupStrategy implements TaskInterface

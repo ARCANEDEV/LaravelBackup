@@ -8,9 +8,8 @@ use Arcanedev\LaravelBackup\Actions\Backup\BackupPassable;
 use Exception;
 
 /**
- * Class     BackupHasFailed
+ * Class     BackupActionHasFailed
  *
- * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupActionHasFailed

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\File;
 /**
  * Class     CreateTemporaryDirectory
  *
- * @package  Arcanedev\LaravelBackup\Tasks\RunBackup
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CreateTemporaryDirectory implements TaskInterface

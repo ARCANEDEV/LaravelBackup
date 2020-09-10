@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Class     BackupDestination
  *
- * @package  Arcanedev\LaravelBackup\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupDestination

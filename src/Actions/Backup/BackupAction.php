@@ -11,7 +11,6 @@ use Throwable;
 /**
  * Class     BackupAction
  *
- * @package  Arcanedev\LaravelBackup\Actions\Backup
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupAction extends Action

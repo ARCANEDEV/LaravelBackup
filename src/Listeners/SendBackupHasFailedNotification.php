@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Notifications\BackupHasFailedNotification;
 /**
  * Class     SendBackupHasFailedNotification
  *
- * @package  Arcanedev\LaravelBackup\Listeners
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SendBackupHasFailedNotification

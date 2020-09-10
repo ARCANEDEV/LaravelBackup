@@ -10,7 +10,6 @@ use Arcanedev\LaravelBackup\Tests\TestCase;
 /**
  * Class     DbDumperManagerTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Database
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DbDumperManagerTest extends TestCase

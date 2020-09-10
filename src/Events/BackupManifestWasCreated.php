@@ -9,7 +9,6 @@ use Arcanedev\LaravelBackup\Entities\Manifest;
 /**
  * Class     BackupManifestWasCreated
  *
- * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupManifestWasCreated

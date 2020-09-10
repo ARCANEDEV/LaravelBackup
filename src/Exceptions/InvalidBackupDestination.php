@@ -9,7 +9,6 @@ use Exception;
 /**
  * Class     InvalidBackupDestination
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class InvalidBackupDestination extends Exception

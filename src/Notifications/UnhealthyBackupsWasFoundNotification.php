@@ -8,9 +8,8 @@ use Arcanedev\LaravelBackup\Entities\BackupDestinationStatus;
 use Illuminate\Notifications\Messages\{MailMessage, SlackAttachment, SlackMessage};
 
 /**
- * Class     UnhealthyBackupWasFoundNotification
+ * Class     UnhealthyBackupsWasFoundNotification
  *
- * @package  Arcanedev\LaravelBackup\Notifications
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UnhealthyBackupsWasFoundNotification extends AbstractNotification

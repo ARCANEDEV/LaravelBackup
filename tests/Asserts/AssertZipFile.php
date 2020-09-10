@@ -7,7 +7,6 @@ namespace Arcanedev\LaravelBackup\Tests\Asserts;
 /**
  * Trait     AssertZipFile
  *
- * @package  Arcanedev\LaravelBackup\Tests\Asserts
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 trait AssertZipFile
@@ -16,7 +15,7 @@ trait AssertZipFile
      * @param  string  $zipPath
      * @param  array   $files
      */
-    protected function assertFilesExistsInZipArchive(string $zipPath, array $files): void
+    protected static function assertFilesExistsInZipArchive(string $zipPath, array $files): void
     {
         foreach ($files as $file) {
             static::assertFileExistsInZip($zipPath, $file);
@@ -27,7 +26,7 @@ trait AssertZipFile
      * @param  string  $zipPath
      * @param  string  $fileName
      */
-    protected function assertFileExistsInZip(string $zipPath, string $fileName): void
+    protected static function assertFileExistsInZip(string $zipPath, string $fileName): void
     {
         static::assertTrue(
             static::fileExistsInZip($zipPath, $fileName),

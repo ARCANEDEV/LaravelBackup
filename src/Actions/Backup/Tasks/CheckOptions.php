@@ -12,7 +12,6 @@ use Closure;
 /**
  * Class     CheckOptions
  *
- * @package  Arcanedev\LaravelBackup\Actions\Backup\Tasks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CheckOptions implements TaskInterface

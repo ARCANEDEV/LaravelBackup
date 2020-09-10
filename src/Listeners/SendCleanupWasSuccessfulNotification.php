@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Notifications\CleanupWasSuccessfulNotification;
 /**
  * Class     SendCleanupWasSuccessfulNotification
  *
- * @package  Arcanedev\LaravelBackup\Listeners
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SendCleanupWasSuccessfulNotification

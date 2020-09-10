@@ -10,7 +10,6 @@ use Arcanedev\LaravelBackup\Database\Dumpers\SqliteDumper;
 /**
  * Class     SqliteDumperTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SqliteDumperTest extends DumpTestCase

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arcanedev\LaravelBackup\Tests;
 
 use Arcanedev\LaravelBackup\BackupServiceProvider;
@@ -7,7 +9,6 @@ use Arcanedev\LaravelBackup\BackupServiceProvider;
 /**
  * Class     BackupServiceProviderTest
  *
- * @package  Arcanedev\LaravelBackup\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupServiceProviderTest extends TestCase
