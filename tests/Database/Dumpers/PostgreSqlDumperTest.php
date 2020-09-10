@@ -41,13 +41,13 @@ class PostgreSqlDumperTest extends DumpTestCase
      */
 
     /** @test */
-    public function it_provides_a_factory_method()
+    public function it_provides_a_factory_method(): void
     {
         static::assertInstanceOf(PostgreSqlDumper::class, $this->dumper);
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_no_credentials_are_set()
+    public function it_will_throw_an_exception_when_no_credentials_are_set(): void
     {
         $this->expectException(CannotStartDatabaseDump::class);
 
@@ -55,7 +55,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command()
+    public function it_can_generate_a_dump_command(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -69,7 +69,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_gzip_compressor_enabled()
+    public function it_can_generate_a_dump_command_with_gzip_compressor_enabled(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -84,7 +84,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_absolute_path_having_space_and_brackets()
+    public function it_can_generate_a_dump_command_with_absolute_path_having_space_and_brackets(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -98,7 +98,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_using_inserts()
+    public function it_can_generate_a_dump_command_with_using_inserts(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -113,7 +113,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_a_custom_port()
+    public function it_can_generate_a_dump_command_with_a_custom_port(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -128,7 +128,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_custom_binary_path()
+    public function it_can_generate_a_dump_command_with_custom_binary_path(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -143,7 +143,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_a_custom_socket()
+    public function it_can_generate_a_dump_command_with_a_custom_socket(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -158,7 +158,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_for_specific_tables_as_array()
+    public function it_can_generate_a_dump_command_for_specific_tables_as_array(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -173,7 +173,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_for_specific_tables_as_string()
+    public function it_can_generate_a_dump_command_for_specific_tables_as_string(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -188,7 +188,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_setting_exclude_tables_after_setting_tables()
+    public function it_will_throw_an_exception_when_setting_exclude_tables_after_setting_tables(): void
     {
         $this->expectException(CannotSetDatabaseParameter::class);
         $this->expectExceptionMessage("Cannot set `excludeTables` because it conflicts with parameter `includeTables`");
@@ -202,7 +202,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_setting_tables_after_setting_exclude_tables()
+    public function it_will_throw_an_exception_when_setting_tables_after_setting_exclude_tables(): void
     {
         $this->expectException(CannotSetDatabaseParameter::class);
         $this->expectExceptionMessage("Cannot set `includeTables` because it conflicts with parameter `excludeTables`");
@@ -216,7 +216,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_excluding_tables_as_array()
+    public function it_can_generate_a_dump_command_excluding_tables_as_array(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -231,7 +231,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_excluding_tables_as_string()
+    public function it_can_generate_a_dump_command_excluding_tables_as_string(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -246,7 +246,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_the_contents_of_a_credentials_file()
+    public function it_can_generate_the_contents_of_a_credentials_file(): void
     {
         $credentials = $this->dumper
             ->setDbName('dbname')
@@ -262,7 +262,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_get_the_name_of_the_db()
+    public function it_can_get_the_name_of_the_db(): void
     {
         $dbDumper = $this->dumper->setDbName($dbName = 'testName');
 
@@ -270,7 +270,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_add_an_extra_option()
+    public function it_can_add_an_extra_option(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -285,7 +285,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_get_the_host()
+    public function it_can_get_the_host(): void
     {
         $dumper = $this->dumper->setHost('myHost');
 
@@ -293,7 +293,7 @@ class PostgreSqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_no_create_info()
+    public function it_can_generate_a_dump_command_with_no_create_info(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')

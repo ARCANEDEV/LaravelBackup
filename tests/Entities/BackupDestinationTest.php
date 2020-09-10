@@ -24,7 +24,7 @@ class BackupDestinationTest extends BackupTestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         $destination = static::makeBackupDestination();
 
@@ -33,7 +33,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_make_instance_from_disk_name()
+    public function it_can_make_instance_from_disk_name(): void
     {
         $destination = BackupDestination::makeFromDiskName($this->diskName, $this->backupName);
 
@@ -42,7 +42,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_make_instance_with_unhandled_disk()
+    public function it_can_make_instance_with_unhandled_disk(): void
     {
         $destination = BackupDestination::makeFromDiskName('not-found', $this->backupName);
 
@@ -56,7 +56,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_backup_name()
+    public function it_can_get_backup_name(): void
     {
         $destination = static::makeBackupDestination();
 
@@ -64,7 +64,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_disk_name()
+    public function it_can_get_disk_name(): void
     {
         $destination = static::makeBackupDestination($diskName = 'secondary-storage');
 
@@ -72,7 +72,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_disk_storage()
+    public function it_can_get_disk_storage(): void
     {
         $destination = static::makeBackupDestination();
 
@@ -81,7 +81,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_backups()
+    public function it_can_get_backups(): void
     {
         $destination = static::makeBackupDestination();
 
@@ -90,7 +90,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_push_backup_extra_option_to_write_stream_if_set()
+    public function it_push_backup_extra_option_to_write_stream_if_set(): void
     {
         static::fakeDiskStorages($disks = ['s3-storage']);
 
@@ -110,7 +110,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_push_empty_default_backup_extra_option_to_write_stream_if_not_set()
+    public function it_push_empty_default_backup_extra_option_to_write_stream_if_not_set(): void
     {
         static::fakeDiskStorages($disks = ['local-storage']);
 
@@ -126,7 +126,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_write_write_file_into_destination()
+    public function it_can_write_write_file_into_destination(): void
     {
         $destination = static::makeBackupDestination();
 
@@ -136,7 +136,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_cannot_write_file_on_invalid_disk()
+    public function it_cannot_write_file_on_invalid_disk(): void
     {
         $this->expectException(InvalidBackupDestination::class);
         $this->expectExceptionMessage('There is no disk set for the backup named `ARCANEDEV`');
@@ -146,7 +146,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_check_if_destination_is_reachable()
+    public function it_can_check_if_destination_is_reachable(): void
     {
         $disks = ['primary-storage', 'secondary-storage'];
 
@@ -177,7 +177,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_and_reset_backups_collection()
+    public function it_can_get_and_reset_backups_collection(): void
     {
         $destination = static::makeBackupDestination();
 
@@ -202,7 +202,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_used_storage()
+    public function it_can_get_used_storage(): void
     {
         $destination = static::makeBackupDestination();
 
@@ -219,7 +219,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_newest_and_oldest_backups()
+    public function it_can_get_newest_and_oldest_backups(): void
     {
         $this->makeBackupFile($path = "{$this->backupName}/backup-newest.zip");
         $this->makeBackupFile($path = "{$this->backupName}/backup-between.zip", 1);
@@ -234,7 +234,7 @@ class BackupDestinationTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_check_if_the_newest_backup_is_older_than_the_given_date()
+    public function it_can_check_if_the_newest_backup_is_older_than_the_given_date(): void
     {
         $this->makeBackupFile($path = "{$this->backupName}/backup.zip");
 
@@ -253,7 +253,7 @@ class BackupDestinationTest extends BackupTestCase
     /**
      * Make a destination backup.
      *
-     * @param  string  $diskName
+     * @param  string|null  $diskName
      *
      * @return \Arcanedev\LaravelBackup\Entities\BackupDestination
      */

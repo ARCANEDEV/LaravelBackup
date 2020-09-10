@@ -22,7 +22,7 @@ abstract class DumpTestCase extends TestCase
      * @param  string  $expected
      * @param  string  $actual
      */
-    public function assertSameCommand(string $expected, string $actual)
+    public function assertSameCommand(string $expected, string $actual): void
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $expected = str_replace('\'', '"', $expected);

@@ -42,7 +42,7 @@ class CleanupBackupCommandTest extends TestCase
      */
 
     /** @test */
-    public function it_can_remove_old_backups_until_using_less_than_maximum_storage()
+    public function it_can_remove_old_backups_until_using_less_than_maximum_storage(): void
     {
         $this->app['config']->set('backup.cleanup.strategy.delete-backups.oldest-when-size-reach', 2);
 
@@ -63,7 +63,7 @@ class CleanupBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_can_remove_old_backups_from_the_backup_directory()
+    public function it_can_remove_old_backups_from_the_backup_directory(): void
     {
         /** @var  \Illuminate\Support\Collection  $expectedRemainingBackups */
         /** @var  \Illuminate\Support\Collection  $expectedDeletedBackups */
@@ -138,7 +138,7 @@ class CleanupBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_will_leave_non_zip_files_alone()
+    public function it_will_leave_non_zip_files_alone(): void
     {
         $paths = Collection::make([
             static::createFileOnDisk('primary-storage', 'ARCANEDEV/test1.txt', Carbon::now()->subDays(1)),
@@ -158,7 +158,7 @@ class CleanupBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_will_never_delete_the_newest_backup()
+    public function it_will_never_delete_the_newest_backup(): void
     {
         $backupPaths = Collection::make(range(5, 10))->map(function (int $numberOfYears) {
             $date = Carbon::now()->subYears($numberOfYears);
@@ -181,7 +181,7 @@ class CleanupBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_should_trigger_the_cleanup_successful_event()
+    public function it_should_trigger_the_cleanup_successful_event(): void
     {
         $this->artisan('backup:clean')
              ->expectsOutput('Starting cleanup...')
@@ -193,7 +193,7 @@ class CleanupBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_should_omit_the_cleanup_successful_event_when_the_notifications_are_disabled()
+    public function it_should_omit_the_cleanup_successful_event_when_the_notifications_are_disabled(): void
     {
         $this->artisan('backup:clean --disable-notifications')
              ->expectsOutput('Starting cleanup...')
@@ -205,7 +205,7 @@ class CleanupBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_should_display_correct_used_storage_amount_after_cleanup()
+    public function it_should_display_correct_used_storage_amount_after_cleanup(): void
     {
         $this->app['config']->set('backup.cleanup.strategy.delete-backups.oldest-when-size-reach', 4);
 

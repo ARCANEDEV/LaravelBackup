@@ -41,13 +41,13 @@ class MongoDbDumperTest extends DumpTestCase
      */
 
     /** @test */
-    public function it_provides_a_factory_method()
+    public function it_provides_a_factory_method(): void
     {
         static::assertInstanceOf(MongoDbDumper::class, $this->dumper);
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_no_credentials_are_set()
+    public function it_will_throw_an_exception_when_no_credentials_are_set(): void
     {
         $this->expectException(CannotStartDatabaseDump::class);
 
@@ -55,7 +55,7 @@ class MongoDbDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command()
+    public function it_can_generate_a_dump_command(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -67,7 +67,7 @@ class MongoDbDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_gzip_compressor_enabled()
+    public function it_can_generate_a_dump_command_with_gzip_compressor_enabled(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -80,7 +80,7 @@ class MongoDbDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_absolute_path_having_space_and_brackets()
+    public function it_can_generate_a_dump_command_with_absolute_path_having_space_and_brackets(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -92,7 +92,7 @@ class MongoDbDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_username_and_password()
+    public function it_can_generate_a_dump_command_with_username_and_password(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -106,7 +106,7 @@ class MongoDbDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_command_with_custom_host_and_port()
+    public function it_can_generate_a_command_with_custom_host_and_port(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -120,7 +120,7 @@ class MongoDbDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_backup_command_for_a_single_collection()
+    public function it_can_generate_a_backup_command_for_a_single_collection(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -133,7 +133,7 @@ class MongoDbDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_custom_binary_path()
+    public function it_can_generate_a_dump_command_with_custom_binary_path(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -146,7 +146,7 @@ class MongoDbDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_authentication_database()
+    public function it_can_generate_a_dump_command_with_authentication_database(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')

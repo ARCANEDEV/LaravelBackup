@@ -158,7 +158,9 @@ class Command
             return "{$command} > {$dumpFile}";
         }
 
-        return "(((({$command}; echo \$? >&3) | {$compressor->useCommand()} > {$dumpFile}) 3>&1) | (read x; exit \$x))";
+        return static::isWindowsOS()
+            ? "{$command} | {$compressor->useCommand()} > {$dumpFile}"
+            : "(((({$command}; echo \$? >&3) | {$compressor->useCommand()} > {$dumpFile}) 3>&1) | (read x; exit \$x))";
     }
 
     /* -----------------------------------------------------------------

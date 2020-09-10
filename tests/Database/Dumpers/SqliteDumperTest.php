@@ -50,13 +50,13 @@ class SqliteDumperTest extends DumpTestCase
      */
 
     /** @test */
-    public function it_provides_a_factory_method()
+    public function it_provides_a_factory_method(): void
     {
         static::assertInstanceOf(SqliteDumper::class, $this->dumper);
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command()
+    public function it_can_generate_a_dump_command(): void
     {
         $actual = $this->dumper
             ->setDbName('database.sqlite')
@@ -68,7 +68,7 @@ class SqliteDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_gzip_compressor_enabled()
+    public function it_can_generate_a_dump_command_with_gzip_compressor_enabled(): void
     {
         $actual = $this->dumper
             ->setDbName('database.sqlite')
@@ -82,7 +82,7 @@ class SqliteDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_absolute_paths()
+    public function it_can_generate_a_dump_command_with_absolute_paths(): void
     {
         $actual = $this->dumper
             ->setDbName('/path/to/database.sqlite')
@@ -95,7 +95,7 @@ class SqliteDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_with_absolute_paths_having_space_and_brackets()
+    public function it_can_generate_a_dump_command_with_absolute_paths_having_space_and_brackets(): void
     {
         $actual = $this->dumper
             ->setDbName('/path/to/database.sqlite')
@@ -108,7 +108,7 @@ class SqliteDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_successfully_creates_a_backup()
+    public function it_successfully_creates_a_backup(): void
     {
         $dbPath       = static::getTempDirectory('databases/database.sqlite');
         $dbBackupPath = static::getTempDirectory('databases/backup.sql');

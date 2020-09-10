@@ -37,7 +37,7 @@ class BackupEventSubscriberTest extends TestCase
      */
 
     /** @test */
-    public function it_will_send_a_notification_by_default_when_a_backup_has_failed()
+    public function it_will_send_a_notification_by_default_when_a_backup_has_failed(): void
     {
         $this->fireBackupHasFailedEvent();
 
@@ -51,7 +51,7 @@ class BackupEventSubscriberTest extends TestCase
      *
      * @param array $expectedChannels
      */
-    public function it_will_send_a_notification_via_the_configured_notification_channels(array $expectedChannels)
+    public function it_will_send_a_notification_via_the_configured_notification_channels(array $expectedChannels): void
     {
         $this->app['config']->set('backup.notifications.supported.'.BackupHasFailedNotification::class, $expectedChannels);
 

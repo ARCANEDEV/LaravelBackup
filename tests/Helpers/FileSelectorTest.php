@@ -46,13 +46,13 @@ class FileSelectorTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated_via_container()
+    public function it_can_be_instantiated_via_container(): void
     {
         static::assertInstanceOf(FilesSelector::class, $this->filesSelector);
     }
 
     /** @test */
-    public function it_returns_an_empty_selected_files_when_not_specifying_any_directories()
+    public function it_returns_an_empty_selected_files_when_not_specifying_any_directories(): void
     {
         // As Generator
         $actual = $this->filesSelector->selected();
@@ -68,7 +68,7 @@ class FileSelectorTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_an_empty_array_if_everything_is_excluded()
+    public function it_returns_an_empty_array_if_everything_is_excluded(): void
     {
         $actual = $this->filesSelector
             ->include($this->sourceDirectory)
@@ -79,7 +79,7 @@ class FileSelectorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_select_all_the_files_in_a_directory_and_subdirectories()
+    public function it_can_select_all_the_files_in_a_directory_and_subdirectories(): void
     {
         $this->filesSelector->include($this->sourceDirectory);
 
@@ -105,7 +105,7 @@ class FileSelectorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_exclude_files_from_a_given_subdirectory()
+    public function it_can_exclude_files_from_a_given_subdirectory(): void
     {
         $this->filesSelector
             ->include($this->sourceDirectory)
@@ -127,7 +127,7 @@ class FileSelectorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_exclude_files_with_wildcards_from_a_given_subdirectory()
+    public function it_can_exclude_files_with_wildcards_from_a_given_subdirectory(): void
     {
         $this->filesSelector
             ->include($this->sourceDirectory)
@@ -150,7 +150,7 @@ class FileSelectorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_select_files_from_multiple_directories()
+    public function it_can_select_files_from_multiple_directories(): void
     {
         $this->filesSelector->include([
             $this->sourceDirectory.'/directory-1/sub-directory-1',
@@ -168,7 +168,7 @@ class FileSelectorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_exclude_files_from_multiple_directories()
+    public function it_can_exclude_files_from_multiple_directories(): void
     {
         $actual = $this->filesSelector
             ->include($this->sourceDirectory)
@@ -193,7 +193,7 @@ class FileSelectorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_select_a_single_file()
+    public function it_can_select_a_single_file(): void
     {
         $actual = $this->filesSelector
             ->include($this->sourceDirectory.'/.dotfile')
