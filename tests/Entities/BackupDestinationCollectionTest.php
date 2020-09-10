@@ -20,7 +20,7 @@ class BackupDestinationCollectionTest extends TestCase
      */
 
     /** @test */
-    public function it_can_make_from_disks_names()
+    public function it_can_make_from_disks_names(): void
     {
         $backupName = $this->getBackupName();
         $diskNames  = $this->getBackupDestinationDisks();

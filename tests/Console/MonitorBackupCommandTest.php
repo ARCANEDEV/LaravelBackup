@@ -35,7 +35,7 @@ class MonitorBackupCommandTest extends TestCase
      */
 
     /** @test */
-    public function it_succeeds_when_destination_is_reachable()
+    public function it_succeeds_when_destination_is_reachable(): void
     {
         static::create1MbFileOnDisk('local', 'ARCANEDEV/test.zip', Carbon::now()->subSecond());
 
@@ -49,7 +49,7 @@ class MonitorBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_when_backup_destination_is_not_reachable()
+    public function it_fails_when_backup_destination_is_not_reachable(): void
     {
         $this->app['config']->set('backup.monitor.destinations.0.disks', ['not-real-disk']);
 
@@ -66,7 +66,7 @@ class MonitorBackupCommandTest extends TestCase
      */
 
     /** @test */
-    public function it_succeeds_when_a_fresh_backup_present()
+    public function it_succeeds_when_a_fresh_backup_present(): void
     {
         $this->create1MbFileOnDisk('primary-storage', 'ARCANEDEV/test.zip', Carbon::now()->subSecond());
 
@@ -80,7 +80,7 @@ class MonitorBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_when_no_backups_are_present()
+    public function it_fails_when_no_backups_are_present(): void
     {
         $this->app['config']->set('backup.monitor.destinations.0.disks', ['primary-storage']);
 
@@ -92,7 +92,7 @@ class MonitorBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_when_max_days_has_been_exceeded()
+    public function it_fails_when_max_days_has_been_exceeded(): void
     {
         static::create1MbFileOnDisk('primary-storage', 'ARCANEDEV/test.zip', Carbon::now()->subSecond()->subDay());
 
@@ -106,7 +106,7 @@ class MonitorBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_accepts_a_shorthand_value_in_config()
+    public function it_accepts_a_shorthand_value_in_config(): void
     {
         static::create1MbFileOnDisk('primary-storage', 'ARCANEDEV/test.zip', Carbon::now()->subSecond()->subDay());
 

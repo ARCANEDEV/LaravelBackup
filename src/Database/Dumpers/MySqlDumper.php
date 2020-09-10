@@ -41,6 +41,9 @@ class MySqlDumper extends AbstractDumper
     /** @var bool */
     protected $skipLockTables = false;
 
+    /** @var  bool */
+    protected $doNotUseColumnStatistics = false;
+
     /** @var bool */
     protected $useQuick = false;
 
@@ -142,6 +145,18 @@ class MySqlDumper extends AbstractDumper
     public function skipLockTables()
     {
         $this->skipLockTables = true;
+
+        return $this;
+    }
+
+    /**
+     * Skip the column statistics.
+     *
+     * @return $this
+     */
+    public function doNotUseColumnStatistics()
+    {
+        $this->doNotUseColumnStatistics = true;
 
         return $this;
     }
@@ -259,6 +274,7 @@ class MySqlDumper extends AbstractDumper
             ->add($this->useExtendedInserts ? '--extended-insert' : '--skip-extended-insert')
             ->addIf($this->useSingleTransaction, '--single-transaction')
             ->addIf($this->skipLockTables, '--skip-lock-tables')
+            ->addIf($this->doNotUseColumnStatistics, '--column-statistics=0')
             ->addIf($this->useQuick, '--quick')
             ->addUnless(is_null($this->getSocket()), "--socket={$this->getSocket()}")
             ->addMany(

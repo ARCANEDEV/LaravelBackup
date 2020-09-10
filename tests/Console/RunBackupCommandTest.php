@@ -131,14 +131,14 @@ class RunBackupCommandTest extends TestCase
         static::assertFalse(file_exists(storage_path('app/_backup-temp')));
     }
 
-    protected static function assertBackupsExistsInStorages(array $disks = ['primary-storage', 'secondary-storage'])
+    protected static function assertBackupsExistsInStorages(array $disks = ['primary-storage', 'secondary-storage']): void
     {
         foreach ($disks as $disk) {
             Storage::disk($disk)->assertExists('ARCANEDEV/20190101-123030.zip');
         }
     }
 
-    protected static function assertBackupFilesExistsInZipFile(array $files, array $disks = ['primary-storage', 'secondary-storage'])
+    protected static function assertBackupFilesExistsInZipFile(array $files, array $disks = ['primary-storage', 'secondary-storage']): void
     {
         foreach ($disks as $disk) {
             $path = Storage::disk($disk)->path('ARCANEDEV/20190101-123030.zip');
@@ -147,7 +147,7 @@ class RunBackupCommandTest extends TestCase
         }
     }
 
-    protected static function assertBackupsMissingInStorages(array $disks = ['primary-storage', 'secondary-storage'])
+    protected static function assertBackupsMissingInStorages(array $disks = ['primary-storage', 'secondary-storage']): void
     {
         foreach ($disks as $disk) {
             Storage::disk($disk)->assertMissing('ARCANEDEV/20190101-123030.zip');

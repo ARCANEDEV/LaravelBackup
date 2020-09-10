@@ -19,7 +19,7 @@ class BackupTest extends BackupTestCase
      */
 
     /** @test */
-    public function it_can_determine_the_disk_of_the_backup()
+    public function it_can_determine_the_disk_of_the_backup(): void
     {
         $backup = $this->makeBackupFile("{$this->backupName}/test.zip");
 
@@ -28,7 +28,7 @@ class BackupTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_determine_the_path_of_the_backup()
+    public function it_can_determine_the_path_of_the_backup(): void
     {
         $backup = $this->makeBackupFile($path ="{$this->backupName}/test.zip'");
 
@@ -36,7 +36,7 @@ class BackupTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_delete_itself()
+    public function it_can_delete_itself(): void
     {
         $backup = $this->makeBackupFile($path ="{$this->backupName}/test.zip'");
 
@@ -50,7 +50,7 @@ class BackupTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_determine_its_size()
+    public function it_can_determine_its_size(): void
     {
         $backup = $this->makeBackupFile($path ="{$this->backupName}/test.zip'");
 
@@ -61,7 +61,7 @@ class BackupTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_need_a_float_type_size()
+    public function it_need_a_float_type_size(): void
     {
         $backup = $this->makeBackupFile("{$this->backupName}/test.zip");
 
@@ -69,7 +69,7 @@ class BackupTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_determine_its_size_even_after_it_has_been_deleted()
+    public function it_can_determine_its_size_even_after_it_has_been_deleted(): void
     {
         $backup = $this->makeBackupFile("{$this->backupName}/test.zip");
 
@@ -78,7 +78,7 @@ class BackupTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_filesystem_adapter_type()
+    public function it_can_get_filesystem_adapter_type(): void
     {
         $backup = $this->makeBackupFile("{$this->backupName}/test.zip");
 
@@ -86,7 +86,7 @@ class BackupTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_get_backup_date()
+    public function it_can_get_backup_date(): void
     {
         $backup = $this->makeBackupFile("{$this->backupName}/test.zip");
 
@@ -95,7 +95,7 @@ class BackupTest extends BackupTestCase
     }
 
     /** @test */
-    public function it_can_stream_backup()
+    public function it_can_stream_backup(): void
     {
         $backup = $this->makeBackupFile("{$this->backupName}/test.zip");
 

@@ -74,7 +74,7 @@ class ZipTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_zip()
+    public function it_can_create_zip(): void
     {
         $this->zip->create();
 

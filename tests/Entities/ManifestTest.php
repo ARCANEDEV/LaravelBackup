@@ -56,7 +56,7 @@ class ManifestTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(Manifest::class, $this->manifest);
         static::assertSame($this->path, $this->manifest->path());
@@ -65,7 +65,7 @@ class ManifestTest extends TestCase
     }
 
     /** @test */
-    public function it_can_be_make()
+    public function it_can_be_make(): void
     {
         $manifest = Manifest::make($this->path);
 
@@ -76,7 +76,7 @@ class ManifestTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_files()
+    public function it_can_add_files(): void
     {
         $this->manifest->addFiles([
             '/directory-1/file-1.txt',
@@ -101,7 +101,7 @@ class ManifestTest extends TestCase
     }
 
     /** @test */
-    public function it_can_save_files_as_json()
+    public function it_can_save_files_as_json(): void
     {
         $this->manifest->addFiles([
             'application' => [
@@ -141,7 +141,7 @@ class ManifestTest extends TestCase
     }
 
     /** @test */
-    public function it_can_load_manifest()
+    public function it_can_load_manifest(): void
     {
         $files = [
             'application' => [

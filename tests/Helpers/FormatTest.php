@@ -28,13 +28,13 @@ class FormatTest extends TestCase
      * @param  int|float  $size
      * @param  string     $expected
      */
-    public function it_can_determine_a_human_readable_file_size(float $size, string $expected)
+    public function it_can_determine_a_human_readable_file_size(float $size, string $expected): void
     {
         static::assertEquals($expected, Format::humanReadableSize($size));
     }
 
     /** @test */
-    public function it_can_determine_the_age_in_days()
+    public function it_can_determine_the_age_in_days(): void
     {
         Carbon::setTestNow(Carbon::create(2016, 1, 1)->startOfDay());
 

@@ -50,7 +50,7 @@ abstract class TestCase extends OrchestraTestCase
      *
      * @return array
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             BackupServiceProvider::class,
@@ -59,9 +59,9 @@ abstract class TestCase extends OrchestraTestCase
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         /** @var  \Illuminate\Contracts\Config\Repository  $config */
         $config = $app['config'];
@@ -138,7 +138,7 @@ abstract class TestCase extends OrchestraTestCase
      * @param  int  $minute
      * @param  int  $second
      */
-    protected static function setTestNow(int $year, int $month, int $day, int $hour, int $minute, int $second)
+    protected static function setTestNow(int $year, int $month, int $day, int $hour, int $minute, int $second): void
     {
         Carbon::setTestNow(Carbon::create($year, $month, $day, $hour, $minute, $second));
     }
