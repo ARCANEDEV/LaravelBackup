@@ -9,7 +9,6 @@ use Arcanedev\LaravelBackup\Actions\monitor\MonitorPassable;
 /**
  * Class     MonitorActionWasSuccessful
  *
- * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MonitorActionWasSuccessful

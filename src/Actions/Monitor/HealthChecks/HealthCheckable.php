@@ -7,10 +7,9 @@ namespace Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks;
 use Arcanedev\LaravelBackup\Entities\BackupDestination;
 
 /**
- * Interface     HealthCheckable
+ * Interface  HealthCheckable
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks
- * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface HealthCheckable
 {

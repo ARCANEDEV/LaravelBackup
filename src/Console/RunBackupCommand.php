@@ -12,7 +12,6 @@ use Illuminate\Support\Arr;
 /**
  * Class     RunBackupCommand
  *
- * @package  Arcanedev\LaravelBackup\Console
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RunBackupCommand extends Command
@@ -23,7 +22,7 @@ class RunBackupCommand extends Command
      */
 
     /** @var string */
-    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications}';
+    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=}';
 
     /** @var string */
     protected $description = 'Run the backup.';
@@ -44,21 +43,46 @@ class RunBackupCommand extends Command
     {
         $this->comment(__('Starting backup...'));
 
-        try {
-            $options = Arr::only($this->options(), [
-                'filename', 'only-db', 'db-name', 'only-files', 'only-to-disk', 'disable-notifications',
-            ]);
+        $this->setTimeout($this->option('timeout'));
 
-            $action->execute($options);
+        try {
+            $allowedOptions = [
+                'filename',
+                'only-db',
+                'db-name',
+                'only-files',
+                'only-to-disk',
+                'disable-notifications',
+            ];
+
+            $action->execute(Arr::only($this->options(), $allowedOptions));
 
             $this->comment(__('Backup completed!'));
 
-            return 0;
+            return Command::SUCCESS;
         }
         catch (Exception $e) {
             $this->error(__('Backup failed because: :message', ['message' => $e->getMessage()]));
 
-            return 1;
+            return Command::FAILURE;
+        }
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+
+    /**
+     * Set timeout.
+     *
+     * @param  string|int|null  $timeout
+     */
+    private function setTimeout($timeout): void
+    {
+        if ($timeout && is_numeric($timeout)) {
+            set_time_limit((int) $this->option('timeout'));
         }
     }
 }

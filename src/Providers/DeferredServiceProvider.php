@@ -12,11 +12,15 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 /**
  * Class     DeferredServiceProvider
  *
- * @package  Arcanedev\LaravelBackup\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DeferredServiceProvider extends ServiceProvider implements DeferrableProvider
 {
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Register the service provider.
      */

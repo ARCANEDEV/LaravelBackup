@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Helpers\Zip;
 /**
  * Class     BackupPassable
  *
- * @package  Arcanedev\LaravelBackup\Actions\Backup
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupPassable extends Passable

@@ -1,15 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arcanedev\LaravelBackup\Database\Contracts;
 
 /**
- * Interface     Compressor
+ * Interface  Compressor
  *
- * @package  Arcanedev\LaravelBackup\Database\Contracts
- * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface Compressor
 {
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Get the compressor command.
+     *
+     * @return string
+     */
     public function useCommand(): string;
 
     /**

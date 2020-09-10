@@ -12,7 +12,6 @@ use Illuminate\Support\Arr;
 /**
  * Class     MonitorBackupCommand
  *
- * @package  Arcanedev\LaravelBackup\Console
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MonitorBackupCommand extends Command
@@ -61,6 +60,8 @@ class MonitorBackupCommand extends Command
             ]));
         });
 
-        return $passable->hasUnhealthyStatuses() ? 1 : 0;
+        return $passable->hasUnhealthyStatuses()
+            ? Command::FAILURE
+            : Command::SUCCESS;
     }
 }

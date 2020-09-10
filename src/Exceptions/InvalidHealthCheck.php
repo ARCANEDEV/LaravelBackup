@@ -7,7 +7,6 @@ namespace Arcanedev\LaravelBackup\Exceptions;
 /**
  * Class     InvalidHealthCheck
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class InvalidHealthCheck extends \Exception

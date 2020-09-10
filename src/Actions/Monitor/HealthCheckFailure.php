@@ -11,7 +11,6 @@ use Exception;
 /**
  * Class     HealthCheckFailure
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class HealthCheckFailure

@@ -14,7 +14,6 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 /**
  * Class     TestCase
  *
- * @package  Arcanedev\LaravelBackup\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class TestCase extends OrchestraTestCase

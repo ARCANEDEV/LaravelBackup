@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Entities;
 
-use Arcanedev\LaravelBackup\Entities\BackupCollection;
-use Arcanedev\LaravelBackup\Entities\BackupDestination;
-use Arcanedev\LaravelBackup\Entities\BackupDestinationCollection;
+use Arcanedev\LaravelBackup\Entities\{BackupCollection, BackupDestination, BackupDestinationCollection};
 use Arcanedev\LaravelBackup\Exceptions\InvalidBackupDestination;
 use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -16,7 +14,6 @@ use InvalidArgumentException;
 /**
  * Class     BackupDestinationTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupDestinationTest extends BackupTestCase

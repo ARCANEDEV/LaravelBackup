@@ -7,9 +7,8 @@ namespace Arcanedev\LaravelBackup\Events;
 use Arcanedev\LaravelBackup\Actions\Backup\BackupPassable;
 
 /**
- * Class     BackupWasSuccessful
+ * Class     BackupActionWasSuccessful
  *
- * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupActionWasSuccessful

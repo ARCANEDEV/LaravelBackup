@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 /**
  * Class     BackupDestinationCollection
  *
- * @package  Arcanedev\LaravelBackup\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupDestinationCollection extends Collection

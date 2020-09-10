@@ -10,7 +10,6 @@ use Symfony\Component\Process\Process;
 /**
  * Class     DatabaseDumpFailed
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DatabaseDumpFailed extends Exception

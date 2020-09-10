@@ -9,7 +9,6 @@ use Carbon\CarbonInterface;
 /**
  * Class     Format
  *
- * @package  Arcanedev\LaravelBackup\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Format

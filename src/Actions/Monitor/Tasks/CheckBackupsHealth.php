@@ -12,7 +12,6 @@ use Closure;
 /**
  * Class     CheckBackupsHealth
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor\Tasks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CheckBackupsHealth implements TaskInterface

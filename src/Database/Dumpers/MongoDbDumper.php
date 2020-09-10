@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Exceptions\CannotStartDatabaseDump;
 /**
  * Class     MongoDbDumper
  *
- * @package  Arcanedev\LaravelBackup\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class MongoDbDumper extends AbstractDumper
@@ -35,22 +34,19 @@ class MongoDbDumper extends AbstractDumper
     protected $authenticationDatabase = null;
 
     /* -----------------------------------------------------------------
-     |  Constructor
+     |  Getters & Setters
      | -----------------------------------------------------------------
      */
 
     /**
-     * MongoDbDumper constructor.
+     * Get the default port.
+     *
+     * @return string
      */
-    public function __construct()
+    protected function getDefaultPort(): string
     {
-        $this->setPort('27017');
+        return '27017';
     }
-
-    /* -----------------------------------------------------------------
-     |  Getters & Setters
-     | -----------------------------------------------------------------
-     */
 
     /**
      * @param  string  $collection
@@ -94,7 +90,7 @@ class MongoDbDumper extends AbstractDumper
             $this->getDumpCommand($dumpFile)
         );
 
-        $this->checkIfDumpWasSuccessFul($process, $dumpFile);
+        static::checkIfDumpWasSuccessFul($process, $dumpFile);
     }
 
     /**

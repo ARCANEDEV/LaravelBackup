@@ -10,7 +10,6 @@ use League\Flysystem\FilesystemInterface;
 /**
  * Trait     HasDisk
  *
- * @package  Arcanedev\LaravelBackup\Entities\Concerns
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 trait HasDisk

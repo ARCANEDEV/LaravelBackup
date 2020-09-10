@@ -7,10 +7,9 @@ namespace Arcanedev\LaravelBackup\Actions;
 use Closure;
 
 /**
- * Interface     TaskInterface
+ * Interface  TaskInterface
  *
- * @package  Arcanedev\LaravelBackup\Actions
- * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface TaskInterface
 {

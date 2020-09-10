@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\File;
 /**
  * Trait     HasFilesManipulation
  *
- * @package  Arcanedev\LaravelBackup\Tests\Concerns
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 trait HasFilesManipulation
@@ -147,7 +146,7 @@ trait HasFilesManipulation
      *
      * @throws \Exception
      */
-    protected function fileExistsInZip(string $zipPath, string $fileName): bool
+    protected static function fileExistsInZip(string $zipPath, string $fileName): bool
     {
         foreach (Zip::getFiles($zipPath) as $file) {
             if ($fileName === $file)

@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
 /**
  * Class     AbstractNotification
  *
- * @package  Arcanedev\LaravelBackup\Notifications
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class AbstractNotification extends Notification
@@ -64,9 +63,9 @@ abstract class AbstractNotification extends Notification
      */
     public function via($notifiable): array
     {
-        $notificationChannels = config('backup.notifications.supported.'.static::class, []);
+        $channels = static::config('supported.'.static::class, []);
 
-        return array_filter($notificationChannels);
+        return array_filter($channels);
     }
 
     /**
@@ -161,8 +160,8 @@ abstract class AbstractNotification extends Notification
      */
     protected static function makeMailMessage(): MailMessage
     {
-        $address = config('backup.notifications.mail.from.address', config('mail.from.address'));
-        $name    = config('backup.notifications.mail.from.name', config('mail.from.name'));
+        $address = static::config('mail.from.address', config('mail.from.address'));
+        $name    = static::config('mail.from.name', config('mail.from.name'));
 
         return (new MailMessage)->from($address, $name);
     }
@@ -174,10 +173,23 @@ abstract class AbstractNotification extends Notification
      */
     protected static function makeSlackMessage(): SlackMessage
     {
-        $username = config('backup.notifications.slack.username');
-        $icon     = config('backup.notifications.slack.icon');
-        $channel  = config('backup.notifications.slack.channel');
+        $username = static::config('slack.username');
+        $icon     = static::config('slack.icon');
+        $channel  = static::config('slack.channel');
 
         return (new SlackMessage)->from($username, $icon)->to($channel);
+    }
+
+    /**
+     * Get the notification's config.
+     *
+     * @param  string      $key
+     * @param  mixed|null  $default
+     *
+     * @return mixed
+     */
+    private static function config(string $key, $default = null)
+    {
+        return config("backup.notifications.{$key}", $default);
     }
 }

@@ -15,7 +15,6 @@ use Closure;
 /**
  * Class     PrepareFilesToBackup
  *
- * @package  Arcanedev\LaravelBackup\Actions\Backup\Tasks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class PrepareFilesToBackup implements TaskInterface
@@ -114,6 +113,7 @@ class PrepareFilesToBackup implements TaskInterface
             ->include($files['include'])
             ->exclude($files['exclude'])
             ->shouldFollowLinks($files['follow-links'] ?: false)
+            ->shouldIgnoreUnreadableDirs($files['ignore-unreadable-directories'] ?: false)
             ->selectedAsArray();
     }
 

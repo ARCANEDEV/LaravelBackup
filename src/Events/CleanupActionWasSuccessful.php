@@ -7,9 +7,8 @@ namespace Arcanedev\LaravelBackup\Events;
 use Arcanedev\LaravelBackup\Actions\Cleanup\CleanupPassable;
 
 /**
- * Class     CleanupWasSuccessful
+ * Class     CleanupActionWasSuccessful
  *
- * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CleanupActionWasSuccessful

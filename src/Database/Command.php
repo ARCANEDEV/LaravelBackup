@@ -9,7 +9,6 @@ use Arcanedev\LaravelBackup\Database\Contracts\Compressor;
 /**
  * Class     Command
  *
- * @package  Arcanedev\LaravelBackup\Database
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Command
@@ -151,12 +150,15 @@ class Command
      */
     public function echoToFile(string $dumpFile, Compressor $compressor = null): string
     {
-        $command  = $this->toString();
         $dumpFile = '"'.addcslashes($dumpFile, '\\"').'"';
 
-        return $compressor
-            ? "(((({$command}; echo \$? >&3) | {$compressor->useCommand()} > {$dumpFile}) 3>&1) | (read x; exit \$x))"
-            : "{$command} > {$dumpFile}";
+        $command = $this->toString();
+
+        if (is_null($compressor)) {
+            return "{$command} > {$dumpFile}";
+        }
+
+        return "(((({$command}; echo \$? >&3) | {$compressor->useCommand()} > {$dumpFile}) 3>&1) | (read x; exit \$x))";
     }
 
     /* -----------------------------------------------------------------

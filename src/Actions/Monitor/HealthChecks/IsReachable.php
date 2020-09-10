@@ -9,7 +9,6 @@ use Arcanedev\LaravelBackup\Entities\BackupDestination;
 /**
  * Class     IsReachable
  *
- * @package  Arcanedev\LaravelBackup\Actions\Monitor\HealthChecks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class IsReachable extends AbstractHealthCheck

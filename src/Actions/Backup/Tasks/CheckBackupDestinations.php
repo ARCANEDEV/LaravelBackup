@@ -11,7 +11,6 @@ use Closure;
 /**
  * Class     CheckBackupDestinations
  *
- * @package  Arcanedev\LaravelBackup\Actions\Backup\Tasks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CheckBackupDestinations implements TaskInterface

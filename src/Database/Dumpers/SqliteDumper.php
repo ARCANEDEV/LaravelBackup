@@ -9,7 +9,6 @@ use Arcanedev\LaravelBackup\Database\Command;
 /**
  * Class     SqliteDumper
  *
- * @package  Arcanedev\LaravelBackup\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SqliteDumper extends AbstractDumper
@@ -44,7 +43,6 @@ class SqliteDumper extends AbstractDumper
     {
         return Command::make([
             "echo 'BEGIN IMMEDIATE;\n.dump' | '{$this->dumpBinaryPath}sqlite3' --bail '{$this->getDbName()}'"
-        ])
-            ->echoToFile($dumpFile, $this->getCompressor());
+        ])->echoToFile($dumpFile, $this->getCompressor());
     }
 }

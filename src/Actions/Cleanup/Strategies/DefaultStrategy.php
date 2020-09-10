@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 /**
  * Class     DefaultStrategy
  *
- * @package  Arcanedev\LaravelBackup\Actions\Cleanup\Strategies
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DefaultStrategy implements CleanupStrategy

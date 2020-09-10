@@ -9,7 +9,6 @@ use InvalidArgumentException;
 /**
  * Class     InvalidDbDriverException
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class InvalidDbDriverException extends InvalidArgumentException

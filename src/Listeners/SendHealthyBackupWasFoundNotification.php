@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Notifications\HealthyBackupsWasFoundNotification;
 /**
  * Class     SendHealthyBackupWasFoundNotification
  *
- * @package  Arcanedev\LaravelBackup\Listeners
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SendHealthyBackupWasFoundNotification

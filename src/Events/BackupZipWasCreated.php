@@ -9,7 +9,6 @@ use Arcanedev\LaravelBackup\Helpers\Zip;
 /**
  * Class     BackupZipWasCreated
  *
- * @package  Arcanedev\LaravelBackup\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupZipWasCreated

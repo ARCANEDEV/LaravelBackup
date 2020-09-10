@@ -14,7 +14,6 @@ use Illuminate\Support\Arr;
 /**
  * Class     CleanupBackupCommand
  *
- * @package  Arcanedev\LaravelBackup\Console
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CleanupBackupCommand extends Command
@@ -65,12 +64,12 @@ class CleanupBackupCommand extends Command
 
             $this->comment(__('Cleanup completed!'));
 
-            return 0;
+            return Command::SUCCESS;
         }
         catch (Exception $e) {
             $this->error(__("Cleanup failed because: :message", ['message' => $e->getMessage()]));
 
-            return 1;
+            return Command::FAILURE;
         }
     }
 }

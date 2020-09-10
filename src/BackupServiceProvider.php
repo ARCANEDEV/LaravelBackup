@@ -9,7 +9,6 @@ use Arcanedev\Support\Providers\PackageServiceProvider;
 /**
  * Class     BackupServiceProvider
  *
- * @package  Arcanedev\LaravelBackup
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupServiceProvider extends PackageServiceProvider

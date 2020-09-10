@@ -6,13 +6,11 @@ namespace Arcanedev\LaravelBackup\Tests\Database\Dumpers;
 
 use Arcanedev\LaravelBackup\Database\Compressors\GzipCompressor;
 use Arcanedev\LaravelBackup\Database\Dumpers\PostgreSqlDumper;
-use Arcanedev\LaravelBackup\Exceptions\CannotSetDatabaseParameter;
-use Arcanedev\LaravelBackup\Exceptions\CannotStartDatabaseDump;
+use Arcanedev\LaravelBackup\Exceptions\{CannotSetDatabaseParameter, CannotStartDatabaseDump};
 
 /**
  * Class     PostgreSqlDumperTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Database\Dumpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class PostgreSqlDumperTest extends DumpTestCase

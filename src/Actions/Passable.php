@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 /**
  * Class     Passable
  *
- * @package  Arcanedev\LaravelBackup\Actions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class Passable

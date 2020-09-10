@@ -9,7 +9,6 @@ use Exception;
 /**
  * Class     CannotCreateDbDumper
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CannotCreateDbDumper extends Exception

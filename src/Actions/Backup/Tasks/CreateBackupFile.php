@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Actions\Backup\Tasks;
 
 use Arcanedev\LaravelBackup\Actions\TaskInterface;
-use Arcanedev\LaravelBackup\Entities\Manifest;
+use Arcanedev\LaravelBackup\Entities\{Backup, Manifest};
 use Arcanedev\LaravelBackup\Events\BackupZipWasCreated;
 use Arcanedev\LaravelBackup\Helpers\Zip;
 use Closure;
@@ -14,7 +14,6 @@ use Illuminate\Support\Carbon;
 /**
  * Class     CreateBackupFile
  *
- * @package  Arcanedev\LaravelBackup\Actions\Backup\Tasks
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CreateBackupFile implements TaskInterface
@@ -77,6 +76,6 @@ class CreateBackupFile implements TaskInterface
      */
     protected static function getFilename(): string
     {
-        return Carbon::now()->format('Ymd-His').'.zip';
+        return Carbon::now()->format(Backup::FILENAME_FORMAT);
     }
 }

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Class     BackupTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupTest extends BackupTestCase

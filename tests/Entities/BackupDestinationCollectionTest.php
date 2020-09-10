@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Entities;
 
-use Arcanedev\LaravelBackup\Entities\BackupDestination;
-use Arcanedev\LaravelBackup\Entities\BackupDestinationCollection;
+use Arcanedev\LaravelBackup\Entities\{BackupDestination, BackupDestinationCollection};
 use Arcanedev\LaravelBackup\Tests\TestCase;
 
 /**
  * Class     BackupDestinationCollectionTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupDestinationCollectionTest extends TestCase

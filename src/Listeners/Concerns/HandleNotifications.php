@@ -7,7 +7,6 @@ namespace Arcanedev\LaravelBackup\Listeners\Concerns;
 /**
  * Trait     HandleNotifications
  *
- * @package  Arcanedev\LaravelBackup\Listeners\Concerns
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 trait HandleNotifications

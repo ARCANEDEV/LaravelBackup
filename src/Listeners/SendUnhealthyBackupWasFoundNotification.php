@@ -11,7 +11,6 @@ use Arcanedev\LaravelBackup\Notifications\UnhealthyBackupsWasFoundNotification;
 /**
  * Class     SendUnhealthyBackupWasFoundNotification
  *
- * @package  Arcanedev\LaravelBackup\Listeners
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SendUnhealthyBackupWasFoundNotification

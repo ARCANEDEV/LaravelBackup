@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Tests\EventSubscribers;
 
 use Arcanedev\LaravelBackup\Actions\Backup\BackupPassable;
-use Arcanedev\LaravelBackup\Entities\BackupDestinationCollection;
-use Arcanedev\LaravelBackup\Entities\Notifiable;
+use Arcanedev\LaravelBackup\Entities\{BackupDestinationCollection, Notifiable};
 use Arcanedev\LaravelBackup\Events\BackupActionHasFailed;
 use Arcanedev\LaravelBackup\Notifications\BackupHasFailedNotification;
 use Arcanedev\LaravelBackup\Tests\TestCase;
@@ -16,7 +15,6 @@ use Illuminate\Support\Facades\Notification;
 /**
  * Class     BackupEventSubscriberTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\EventSubscribers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class BackupEventSubscriberTest extends TestCase

@@ -11,7 +11,6 @@ use Carbon\Carbon;
 /**
  * Class     FormatTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class FormatTest extends TestCase

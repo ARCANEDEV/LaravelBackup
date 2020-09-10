@@ -12,7 +12,6 @@ use Arcanedev\LaravelBackup\Tests\TestCase;
 /**
  * Class     DeferredServiceProviderTest
  *
- * @package  Arcanedev\LaravelBackup\Tests\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DeferredServiceProviderTest extends TestCase

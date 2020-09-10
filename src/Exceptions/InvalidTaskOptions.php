@@ -9,7 +9,6 @@ use Exception;
 /**
  * Class     InvalidTaskOptions
  *
- * @package  Arcanedev\LaravelBackup\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class InvalidTaskOptions extends Exception

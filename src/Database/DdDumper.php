@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Arcanedev\LaravelBackup\Database;
 
 /**
- * Class     DatabaseDumper
+ * Class     DdDumper
  *
- * @package  Arcanedev\LaravelBackup
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DdDumper
@@ -85,9 +84,15 @@ class DdDumper
     public function dump(string $connection, string $filename = null): string
     {
         $filename = $filename ?: $connection;
-        $path     = $this->path().DIRECTORY_SEPARATOR."dump-{$filename}.sql";
 
-        $this->manager->dumper($connection)->dump($path);
+        $path = $this->path().DIRECTORY_SEPARATOR."dump-{$filename}.sql";
+
+        $dumper = $this->manager->dumper($connection);
+
+        if ($compressor = $dumper->getCompressor())
+            $path .= ".{$compressor->usedExtension()}";
+
+        $dumper->dump($path);
 
         return $path;
     }

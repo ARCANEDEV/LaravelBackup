@@ -9,9 +9,8 @@ use Arcanedev\LaravelBackup\Entities\{BackupDestinationCollection, Period};
 use Illuminate\Support\Collection;
 
 /**
- * Class     CleanPassable
+ * Class     CleanupPassable
  *
- * @package  Arcanedev\LaravelBackup\Actions\Cleanup
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CleanupPassable extends Passable
