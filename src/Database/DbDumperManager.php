@@ -226,14 +226,12 @@ class DbDumperManager
      */
     protected function parseConfig(string $connection): array
     {
-        try {
-            $config = (new ConfigurationUrlParser)->parseConfiguration(
-                $this->app['config']->get("database.connections.{$connection}")
-            );
-        }
-        catch (Exception $e) {
+        $config = $this->app['config']->get("database.connections.{$connection}");
+
+        if (is_null($config))
             throw CannotCreateDbDumper::unsupportedDriver($connection, static::SUPPORTED_DRIVERS);
-        }
+
+        $config = (new ConfigurationUrlParser)->parseConfiguration($config);
 
         if (isset($config['read'])) {
             $config = Arr::except(
