@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Helpers;
 
@@ -35,7 +33,7 @@ class FileSelectorTest extends TestCase
         parent::setUp();
 
         $this->filesSelector   = $this->app->make(FilesSelector::class);
-        $this->sourceDirectory = static::getStubsDirectory('files');
+        $this->sourceDirectory = static::stubsDirectory('files');
 
         $this->filesSelector->reset();
     }
@@ -87,6 +85,7 @@ class FileSelectorTest extends TestCase
         $expected = $this->getTestFiles([
             '.dotfile',
             '1Mb.file',
+            'archive.zip',
             'directory-1',
             'directory-1/sub-directory-1',
             'directory-1/sub-directory-1/file-1.txt',
@@ -115,6 +114,7 @@ class FileSelectorTest extends TestCase
         $expected = $this->getTestFiles([
             '.dotfile',
             '1Mb.file',
+            'archive.zip',
             'directory-2',
             'directory-2/sub-directory-1',
             'directory-2/sub-directory-1/file-1.txt',
@@ -137,6 +137,7 @@ class FileSelectorTest extends TestCase
         $expected = $this->getTestFiles([
             '.dotfile',
             '1Mb.file',
+            'archive.zip',
             'directory-1',
             'directory-1/file-1.txt',
             'directory-1/file-2.txt',
@@ -182,6 +183,7 @@ class FileSelectorTest extends TestCase
         $expected = $this->getTestFiles([
             '.dotfile',
             '1Mb.file',
+            'archive.zip',
             'directory-1',
             'directory-1/file-1.txt',
             'directory-1/file-2.txt',

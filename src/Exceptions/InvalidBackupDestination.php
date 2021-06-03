@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Exceptions;
 
@@ -17,6 +15,18 @@ class InvalidBackupDestination extends Exception
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * @param  string  $diskName
+     *
+     * @return static
+     */
+    public static function connectionError(string $diskName): self
+    {
+        return new static(
+            __("There is a connection error when trying to connect to disk named `:name`", ['name' => $diskName])
+        );
+    }
 
     /**
      * @param  string  $backupName

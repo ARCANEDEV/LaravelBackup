@@ -1,10 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Notifications;
 
 use Arcanedev\LaravelBackup\Entities\BackupDestination;
+use Arcanedev\LaravelBackup\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\{MailMessage, SlackAttachment, SlackMessage};
 
 /**
@@ -82,5 +81,26 @@ class BackupHasFailedNotification extends AbstractNotification
         });
 
         return $message;
+    }
+
+    /**
+     * Send to discord channel.
+     *
+     * @return \Arcanedev\LaravelBackup\Notifications\Messages\DiscordMessage
+     */
+    public function toDiscord(): DiscordMessage
+    {
+        return (new DiscordMessage)
+            ->error()
+            ->from(
+                config('backup.notifications.discord.username'),
+                config('backup.notifications.discord.avatar_url')
+            )
+            ->title(__('Failed backup of :application_name', [
+                'application_name' => $applicationName = $this->applicationName(),
+            ]))
+            ->fields([
+                trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage(),
+            ]);
     }
 }

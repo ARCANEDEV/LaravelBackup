@@ -1,4 +1,4 @@
-FROM php:7-cli-alpine
+FROM php:7.3-cli-alpine
 
 # Cleaning...
 RUN rm -rf /var/cache/apk/* /tmp/*
@@ -14,6 +14,7 @@ RUN apk add --no-cache \
 # Installing PHP Extensions
 RUN docker-php-ext-install \
     mysqli \
+    pcntl \
     pdo_mysql \
     zip
 

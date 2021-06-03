@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Entities;
 
@@ -39,6 +37,14 @@ class Notifiable
     public function routeNotificationForSlack(): string
     {
         return (string) config('backup.notifications.slack.webhook_url');
+    }
+
+    /**
+     * @return string
+     */
+    public function routeNotificationForDiscord(): string
+    {
+        return config('backup.notifications.discord.webhook_url');
     }
 
     /**

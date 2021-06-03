@@ -1,11 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests;
 
 use Arcanedev\LaravelBackup\BackupServiceProvider;
 use Arcanedev\LaravelBackup\Providers\DeferredServiceProvider;
+use Arcanedev\LaravelBackup\Tests\Listeners\EncryptBackupArchiveTest;
 use Illuminate\Contracts\Config\Repository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -87,12 +86,12 @@ abstract class TestCase extends OrchestraTestCase
     {
         $config->set('database.connections.sqlite-db-1', [
             'driver'   => 'sqlite',
-            'database' => static::getTempDirectory('databases/database-1.sqlite'),
+            'database' => static::tempDirectory('databases/database-1.sqlite'),
         ]);
 
         $config->set('database.connections.sqlite-db-2', [
             'driver'   => 'sqlite',
-            'database' => static::getTempDirectory('databases/database-2.sqlite'),
+            'database' => static::tempDirectory('databases/database-2.sqlite'),
         ]);
 
 

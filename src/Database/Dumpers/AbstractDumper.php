@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Database\Dumpers;
 
@@ -77,9 +75,9 @@ abstract class AbstractDumper
      *
      * @param  float  $timeout
      *
-     * @return $this|mixed
+     * @return $this
      */
-    public function setTimeout(float $timeout)
+    public function setTimeout(float $timeout): self
     {
         $this->timeout = $timeout;
 
@@ -120,9 +118,9 @@ abstract class AbstractDumper
      *
      * @param  \Arcanedev\LaravelBackup\Database\Contracts\Compressor  $compressor
      *
-     * @return $this|mixed
+     * @return $this
      */
-    public function useCompressor(Compressor $compressor)
+    public function useCompressor(Compressor $compressor): self
     {
         return $this->setCompressor($compressor);
     }
@@ -132,13 +130,37 @@ abstract class AbstractDumper
      *
      * @param  \Arcanedev\LaravelBackup\Database\Contracts\Compressor  $compressor
      *
-     * @return $this|mixed
+     * @return $this
      */
-    public function setCompressor(Compressor $compressor)
+    public function setCompressor(Compressor $compressor): self
     {
         $this->compressor = $compressor;
 
         return $this;
+    }
+
+    /**
+     * Get the dump file extension.
+     *
+     * @return string
+     */
+    public function getExtension(): string
+    {
+        return 'sql';
+    }
+
+    /**
+     * Get the used dump file extension.
+     *
+     * @return string
+     */
+    public function usedExtension(): string
+    {
+        $extension = config('backup.backup.db-dump.file-extension');
+
+        return empty($extension)
+            ? $this->getExtension()
+            : $extension;
     }
 
     /* -----------------------------------------------------------------
@@ -166,17 +188,14 @@ abstract class AbstractDumper
      */
     protected static function checkIfDumpWasSuccessFul(Process $process, string $outputFile)
     {
-        if ( ! $process->isSuccessful()) {
+        if ( ! $process->isSuccessful())
             throw DatabaseDumpFailed::processDidNotEndSuccessfully($process);
-        }
 
-        if ( ! file_exists($outputFile)) {
+        if ( ! file_exists($outputFile))
             throw DatabaseDumpFailed::dumpfileWasNotCreated();
-        }
 
-        if (filesize($outputFile) === 0) {
+        if (filesize($outputFile) === 0)
             throw DatabaseDumpFailed::dumpfileWasEmpty();
-        }
     }
 
     /**

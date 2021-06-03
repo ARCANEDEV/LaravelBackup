@@ -1,11 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Helpers;
 
 use Arcanedev\LaravelBackup\Helpers\Zip;
 use Arcanedev\LaravelBackup\Tests\TestCase;
+use SplFileInfo;
 
 /**
  * Class     ZipTest
@@ -43,20 +42,13 @@ class ZipTest extends TestCase
         static::initTempDirectory();
 
         static::copyStubsFilesInto(
-            $this->filesPath = static::getTempDirectory('zip/files')
+            $this->filesPath = static::tempDirectory('zip/files')
         );
 
         $this->files = static::getAllFiles($this->filesPath, true);
         $this->zip   = new Zip(
-            $this->zipPath = static::getTempDirectory('zip/file.zip')
+            $this->zipPath = static::tempDirectory('zip/file.zip')
         );
-    }
-
-    protected function tearDown(): void
-    {
-        static::deleteTempDirectory();
-
-        parent::tearDown();
     }
 
     /* -----------------------------------------------------------------
@@ -87,7 +79,7 @@ class ZipTest extends TestCase
         static::assertSame(count($this->files), $this->zip->count());
         static::assertGreaterThan(1500, $this->zip->size());
 
-        $files = array_map(function (\SplFileInfo $file) {
+        $files = array_map(function (SplFileInfo $file) {
             return $this->zip->guessFilenameInArchive($file->getPathname());
         }, $this->files);
 

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Entities;
 
@@ -39,15 +37,8 @@ class ManifestTest extends TestCase
         static::initTempDirectory();
 
         $this->manifest = new Manifest(
-            $this->path = static::getTempDirectory()
+            $this->path = static::tempDirectory()
         );
-    }
-
-    protected function tearDown(): void
-    {
-        static::deleteTempDirectory();
-
-        parent::tearDown();
     }
 
     /* -----------------------------------------------------------------

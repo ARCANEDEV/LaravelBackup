@@ -1,23 +1,14 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Database;
 
 use Arcanedev\LaravelBackup\Database\Dumpers\{
-    AbstractDumper,
-    MongoDbDumper,
-    MySqlDumper,
-    PostgreSqlDumper,
-    SqliteDumper};
+    AbstractDumper, MongoDbDumper, MySqlDumper, PostgreSqlDumper, SqliteDumper
+};
 use Arcanedev\LaravelBackup\Exceptions\CannotCreateDbDumper;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\ConfigurationUrlParser;
-use Illuminate\Support\{
-    Arr,
-    Collection,
-    Str};
+use Illuminate\Support\{Arr, Collection, Str};
 
 /**
  * Class     DbDumperManager
@@ -209,7 +200,7 @@ class DbDumperManager
                 static::processExtraDumpParameters($dumper, $config['dump']);
             }
 
-            if ($compressor = $this->app['config']['backup.backup.db-dump-compressor']) {
+            if ($compressor = $this->app['config']['backup.backup.db-dump.compressor']) {
                 $dumper->setCompressor($this->app->make($compressor));
             }
         });

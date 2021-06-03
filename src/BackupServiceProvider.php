@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup;
 
@@ -40,12 +38,16 @@ class BackupServiceProvider extends PackageServiceProvider
         $this->singleton(Database\DbDumperManager::class);
         $this->singleton(Actions\Cleanup\Strategies\CleanupStrategy::class, Actions\Cleanup\Strategies\DefaultStrategy::class);
 
-        $this->registerProvider(Providers\EventServiceProvider::class);
+        $this->registerProviders([
+            Providers\EventServiceProvider::class,
+            Providers\NotificationServiceProvider::class
+        ]);
 
         $this->registerCommands([
             Console\RunBackupCommand::class,
             Console\CleanupBackupCommand::class,
             Console\MonitorBackupCommand::class,
+            Console\ListBackupCommand::class,
         ]);
     }
 

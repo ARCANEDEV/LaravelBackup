@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Concerns;
 
@@ -28,7 +26,7 @@ trait HasDisksManipulation
      */
     protected static function create1MbFileOnDisk(string $diskName, string $filePath, DateTime $date): string
     {
-        $file = self::getStubsDirectory('files/1Mb.file');
+        $file = self::stubsDirectory('files/1Mb.file');
 
         return static::createFileOnDisk(
             $diskName, $filePath, $date, file_get_contents($file)

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Helpers;
 
@@ -47,5 +45,15 @@ class Format
     public static function ageInDays(CarbonInterface $date): string
     {
         return number_format(round($date->diffInMinutes() / (24 * 60), 2), 2).' ('.$date->diffForHumans().')';
+    }
+
+    /**
+     * @param  bool  $bool
+     *
+     * @return string
+     */
+    public static function statusEmoji(bool $bool): string
+    {
+        return $bool ? '✅' : '❌';
     }
 }

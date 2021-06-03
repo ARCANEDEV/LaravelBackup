@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Database\Dumpers;
 
@@ -71,7 +69,7 @@ class MySqlDumperTest extends DumpTestCase
     /** @test */
     public function it_can_generate_a_dump_command_with_column_statistics(): void
     {
-        $dumpCommand = $this->dumper
+        $actual = $this->dumper
             ->setDbName('dbname')
             ->setUserName('username')
             ->setPassword('password')
@@ -80,7 +78,7 @@ class MySqlDumperTest extends DumpTestCase
 
         $expected = '\'mysqldump\' --defaults-extra-file="credentials.txt" --skip-comments --extended-insert --column-statistics=0 dbname > "dump.sql"';
 
-        static::assertSameCommand($expected, $dumpCommand);
+        static::assertSameCommand($expected, $actual);
     }
 
     /** @test */
@@ -128,7 +126,7 @@ class MySqlDumperTest extends DumpTestCase
     }
 
     /** @test */
-    public function it_can_generate_a_dump_command_without_using_extended_insterts(): void
+    public function it_can_generate_a_dump_command_without_using_extended_inserts(): void
     {
         $actual = $this->dumper
             ->setDbName('dbname')
@@ -329,9 +327,24 @@ class MySqlDumperTest extends DumpTestCase
             ->setSocket(1234)
             ->getDbCredentials();
 
-        $expected = '[client]'.PHP_EOL."user = 'username'".PHP_EOL."password = 'password'".PHP_EOL."host = 'hostname'".PHP_EOL."port = '3306'";
+        $expected = '[client]'.PHP_EOL."user = 'username'".PHP_EOL."password = 'password'".PHP_EOL."port = '3306'";
 
         static::assertSame($expected, $credentialsFileContent);
+    }
+
+    /** @test */
+    public function it_can_generate_the_contents_of_a_credentials_file_with_a_http_connection()
+    {
+        $actual = $this->dumper
+            ->setDbName('dbname')
+            ->setUserName('username')
+            ->setPassword('password')
+            ->setHost('hostname')
+            ->getDbCredentials();
+
+        $expected = '[client]'.PHP_EOL."user = 'username'".PHP_EOL."password = 'password'".PHP_EOL."port = '3306'".PHP_EOL."host = 'hostname'";
+
+        static::assertSame($expected, $actual);
     }
 
     /** @test */
@@ -354,6 +367,22 @@ class MySqlDumperTest extends DumpTestCase
             ->getDumpCommand('dump.sql', 'credentials.txt');
 
         $expected = '\'mysqldump\' --defaults-extra-file="credentials.txt" --skip-comments --extended-insert --extra-option --another-extra-option="value" dbname > "dump.sql"';
+
+        static::assertSameCommand($expected, $actual);
+    }
+
+    /** @test */
+    public function it_can_add_extra_options_after_db_name(): void
+    {
+        $actual = $this->dumper
+            ->setDbName('dbname')
+            ->setUserName('username')
+            ->setPassword('password')
+            ->addExtraOption('--extra-option')
+            ->addExtraOptionAfterDbName('--another-extra-option="value"')
+            ->getDumpCommand('dump.sql', 'credentials.txt');
+
+        $expected = '\'mysqldump\' --defaults-extra-file="credentials.txt" --skip-comments --extended-insert --extra-option dbname --another-extra-option="value" > "dump.sql"';
 
         static::assertSameCommand($expected, $actual);
     }

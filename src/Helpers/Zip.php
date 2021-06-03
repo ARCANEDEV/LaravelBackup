@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Helpers;
 
@@ -44,6 +42,9 @@ class Zip
     /** @var  int */
     protected $fileCount = 0;
 
+    /** @var bool */
+    protected $isOpened = false;
+
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
@@ -82,7 +83,7 @@ class Zip
      *
      * @return $this
      */
-    public function setZipArchive(ZipArchive $zipArchive)
+    public function setZipArchive(ZipArchive $zipArchive): self
     {
         $this->zipArchive = $zipArchive;
 
@@ -106,7 +107,7 @@ class Zip
      *
      * @return $this
      */
-    public function setPath(string $path)
+    public function setPath(string $path): self
     {
         $this->path = $path;
 
@@ -145,9 +146,9 @@ class Zip
     /**
      * Create a zip file.
      *
-     * @return mixed
+     * @return $this
      */
-    public function create()
+    public function create(): Zip
     {
         return tap($this->open(ZipArchive::CREATE | ZipArchive::OVERWRITE), function() {
             $this->fileCount = 0;
@@ -159,11 +160,13 @@ class Zip
      *
      * @param  int|null  $flags
      *
-     * @return mixed
+     * @return $this
      */
-    public function open(int $flags = ZipArchive::CREATE)
+    public function open(int $flags = ZipArchive::CREATE): Zip
     {
-        return $this->zipArchive()->open($this->path(), $flags);
+        $this->isOpened = $this->zipArchive()->open($this->path(), $flags);
+
+        return $this;
     }
 
     /**
@@ -173,7 +176,10 @@ class Zip
      */
     public function close(): bool
     {
-        return $this->zipArchive()->close();
+        if ($closed = $this->zipArchive()->close())
+            $this->isOpened = false;
+
+        return $closed;
     }
 
     /**
@@ -232,26 +238,78 @@ class Zip
         $files = [];
         $zip   = new static($path);
 
-        if ($zip->open() === true) {
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $name = $zip->getNameIndex($i);
+        if ($zip->open()->isOpened() !== true)
+            return $files;
 
-                if ($name === false) {
-                    throw ZipException::makeFromStatus($zip->status);
-                }
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $name = $zip->getNameIndex($i);
 
-                array_push($files, $name);
+            if ($name === false) {
+                throw ZipException::makeFromStatus($zip->status);
             }
-            $zip->close();
+
+            array_push($files, $name);
         }
+        $zip->close();
 
         return $files;
+    }
+
+    /**
+     * Encrypt the archive.
+     *
+     * @return $this
+     */
+    public function encrypt(): Zip
+    {
+        if ( ! $this->isOpened())
+            return $this;
+
+        if ( ! $this->shouldEncrypt())
+            return $this;
+
+        $zip = $this->zipArchive();
+        $zip->setPassword($this->getEncryptPassword());
+
+        foreach (range(0, $zip->numFiles - 1) as $i) {
+            $zip->setEncryptionIndex($i, $this->getEncryptAlgorithm());
+        }
+
+        return $this;
     }
 
     /* -----------------------------------------------------------------
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Check if the archive was opened.
+     *
+     * @return bool
+     */
+    public function isOpened(): bool
+    {
+        return $this->isOpened;
+    }
+
+    /**
+     * Check if it should encrypt the archive.
+     *
+     * @return bool
+     */
+    public function shouldEncrypt(): bool
+    {
+        if ($this->getEncryptPassword() === null)
+            return false;
+
+        $algorithm = $this->getEncryptAlgorithm();
+
+        if ($algorithm === null || $algorithm == false)
+            return false;
+
+        return true;
+    }
 
     /**
      * Guess the filename used in the zip archive.
@@ -263,16 +321,51 @@ class Zip
     public function guessFilenameInArchive(string $pathToFile): string
     {
         $fileDirectory = dirname($pathToFile);
-        $zipDirectory  = [
+        $relativePath  = config('backup.backup.source.files.relative-path');
+
+        if ( ! is_null($relativePath)) {
+            $relativePath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $relativePath);
+        }
+
+        $zipDirectory  = array_filter([
             dirname($this->path()),
+            $relativePath,
             base_path(),
-        ];
+        ]);
 
         $pathToFile = Str::startsWith($fileDirectory, $zipDirectory)
             ? str_replace($zipDirectory, '', $pathToFile)
             : $pathToFile;
 
         return trim($pathToFile, DIRECTORY_SEPARATOR);
+    }
+
+    /**
+     * Get the encryption password.
+     *
+     * @return string|null
+     */
+    protected function getEncryptPassword(): ?string
+    {
+        return config('backup.backup.password');
+    }
+
+    /**
+     * Get the encryption algorithm.
+     *
+     * @return int|null
+     */
+    public function getEncryptAlgorithm(): ?int
+    {
+        $encryption = config('backup.backup.encryption');
+
+        if ($encryption !== 'default')
+            return $encryption;
+
+        if (defined("\ZipArchive::EM_AES_256"))
+            return ZipArchive::EM_AES_256;
+
+        return null;
     }
 
     /**

@@ -1,15 +1,15 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Database;
+
+use Arcanedev\LaravelBackup\Events\DumpingDatabase;
 
 /**
  * Class     DdDumper
  *
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class DdDumper
+class DbDumper
 {
     /* -----------------------------------------------------------------
      |  Properties
@@ -85,12 +85,14 @@ class DdDumper
     {
         $filename = $filename ?: $connection;
 
-        $path = $this->path().DIRECTORY_SEPARATOR."dump-{$filename}.sql";
-
         $dumper = $this->manager->dumper($connection);
+
+        $path = $this->path().DIRECTORY_SEPARATOR."dump-{$filename}.{$dumper->usedExtension()}";
 
         if ($compressor = $dumper->getCompressor())
             $path .= ".{$compressor->usedExtension()}";
+
+        event(new DumpingDatabase($dumper));
 
         $dumper->dump($path);
 

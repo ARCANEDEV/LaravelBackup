@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Database\Dumpers;
 
@@ -70,6 +68,16 @@ class MongoDbDumper extends AbstractDumper
         $this->authenticationDatabase = $authenticationDatabase;
 
         return $this;
+    }
+
+    /**
+     * Get the dump file extension.
+     *
+     * @return string
+     */
+    public function getExtension(): string
+    {
+        return 'archive';
     }
 
     /* -----------------------------------------------------------------

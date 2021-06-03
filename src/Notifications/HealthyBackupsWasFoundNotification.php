@@ -1,10 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Notifications;
 
 use Arcanedev\LaravelBackup\Entities\BackupDestinationStatus;
+use Arcanedev\LaravelBackup\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\{MailMessage, SlackAttachment, SlackMessage};
 
 /**
@@ -65,6 +64,32 @@ class HealthyBackupsWasFoundNotification extends AbstractNotification
             $message->attachment(function (SlackAttachment $attachment) use ($status) {
                 $attachment->fields($this->backupDestinationProperties($status->backupDestination())->toArray());
             });
+        });
+
+        return $message;
+    }
+
+    /**
+     * Send to discord channel.
+     *
+     * @return \Arcanedev\LaravelBackup\Notifications\Messages\DiscordMessage
+     */
+    public function toDiscord(): DiscordMessage
+    {
+        $message = (new DiscordMessage)
+            ->success()
+            ->from(
+                config('backup.notifications.discord.username'),
+                config('backup.notifications.discord.avatar_url')
+            )
+            ->title(
+                __('The backups for :application_name are healthy', [
+                    'application_name' => $this->applicationName(),
+                ])
+            );
+
+        $this->getStatuses()->each(function (BackupDestinationStatus $status) use ($message) {
+            $message->fields($this->backupDestinationProperties($status->backupDestination())->toArray());
         });
 
         return $message;
