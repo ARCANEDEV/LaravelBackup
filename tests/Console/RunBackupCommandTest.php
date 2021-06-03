@@ -1,13 +1,11 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Console;
 
 use Arcanedev\LaravelBackup\Database\Compressors\GzipCompressor;
 use Arcanedev\LaravelBackup\Entities\Notifiable;
 use Arcanedev\LaravelBackup\Events\{
-    BackupActionHasFailed, BackupActionWasSuccessful, BackupManifestWasCreated, BackupZipWasCreated,
+    BackupActionHasFailed, BackupActionWasSuccessful, BackupManifestWasCreated, BackupZipWasCreated, DumpingDatabase
 };
 use Arcanedev\LaravelBackup\Notifications\BackupWasSuccessfulNotification;
 use Arcanedev\LaravelBackup\Tests\TestCase;
@@ -53,6 +51,7 @@ class RunBackupCommandTest extends TestCase
         static::assertBackupsExistsInStorages();
 
         Event::assertDispatched(BackupManifestWasCreated::class);
+        Event::assertDispatched(DumpingDatabase::class);
         Event::assertDispatched(BackupZipWasCreated::class);
         Event::assertDispatched(BackupActionWasSuccessful::class);
 
@@ -72,6 +71,7 @@ class RunBackupCommandTest extends TestCase
         static::assertBackupsExistsInStorages();
 
         Event::assertDispatched(BackupManifestWasCreated::class);
+        Event::assertDispatched(DumpingDatabase::class);
         Event::assertDispatched(BackupZipWasCreated::class);
         Event::assertDispatched(BackupActionWasSuccessful::class);
 
@@ -92,13 +92,14 @@ class RunBackupCommandTest extends TestCase
 
         Event::assertNotDispatched(BackupActionWasSuccessful::class);
         Event::assertNotDispatched(BackupManifestWasCreated::class);
+        Event::assertNotDispatched(DumpingDatabase::class);
         Event::assertNotDispatched(BackupZipWasCreated::class);
     }
 
     /** @test */
     public function it_can_run_backup_with_compressor(): void
     {
-        $this->app['config']->set('backup.backup.db-dump-compressor', GzipCompressor::class);
+        $this->app['config']->set('backup.backup.db-dump.compressor', GzipCompressor::class);
 
         $this->artisan('backup:run --only-db')
             ->expectsOutput('Starting backup...')
@@ -112,10 +113,47 @@ class RunBackupCommandTest extends TestCase
         ]);
 
         Event::assertDispatched(BackupManifestWasCreated::class);
+        Event::assertDispatched(DumpingDatabase::class);
         Event::assertDispatched(BackupZipWasCreated::class);
         Event::assertDispatched(BackupActionWasSuccessful::class);
 
         Event::assertNotDispatched(BackupActionHasFailed::class);
+    }
+
+    /** @test */
+    public function it_can_backup_using_relative_path(): void
+    {
+        $this->app['config']->set('backup.backup.source.files.include', [$this->getDiskRootPath('primary-storage')]);
+        $this->app['config']->set('backup.backup.source.files.relative-path', $this->getDiskRootPath('primary-storage'));
+
+        Storage::disk('primary-storage')->put('testing-file.txt', 'dummy content');
+
+        $this->artisan('backup:run --only-files')
+             ->assertExitCode(0);
+
+        static::assertBackupFilesExistsInZipFile([
+            'files\testing-file.txt',
+        ], ['primary-storage']);
+    }
+
+    /** @test */
+    public function it_renames_database_dump_file_extension_when_specified(): void
+    {
+        $this->app['config']->set('backup.backup.db-dump.file-extension', 'backup');
+
+        $this->artisan('backup:run --only-db')
+             ->assertExitCode(0);
+
+        static::assertBackupFilesExistsInZipFile([
+            'databases/dump-sqlite-db-1.backup',
+            'databases/dump-sqlite-db-2.backup',
+        ]);
+
+        /*
+         * Close the database connection to unlock the sqlite file for deletion.
+         * This prevents the errors from other tests trying to delete and recreate the folder.
+         */
+        $this->app['db']->disconnect();
     }
 
     /* -----------------------------------------------------------------

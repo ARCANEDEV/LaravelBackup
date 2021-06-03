@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Database\Dumpers;
 
@@ -287,6 +285,7 @@ class MySqlDumper extends AbstractDumper
             ->addIf($this->setGtidPurged !== 'AUTO', "--set-gtid-purged={$this->setGtidPurged}")
             ->addUnless($this->dbNameWasSetAsExtraOption, $this->getDbName() ?: '')
             ->addUnless(empty($this->includeTables), '--tables '.implode(' ', $this->includeTables))
+            ->addMany($this->extraOptionsAfterDbName)
             ->echoToFile($dumpFile, $this->getCompressor());
     }
 
@@ -319,13 +318,17 @@ class MySqlDumper extends AbstractDumper
      */
     public function getDbCredentials(): string
     {
-        return implode(PHP_EOL, [
+        $contents = [
             '[client]',
             "user = '{$this->getUsername()}'",
             "password = '{$this->getPassword()}'",
-            "host = '{$this->getHost()}'",
             "port = '{$this->getPort()}'",
-        ]);
+        ];
+
+        if (empty($this->getSocket()))
+            $contents[] = "host = '{$this->getHost()}'";
+
+        return implode(PHP_EOL, $contents);
     }
 
     /**

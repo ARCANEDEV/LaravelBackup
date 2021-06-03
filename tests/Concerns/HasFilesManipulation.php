@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Concerns;
 
@@ -34,25 +32,25 @@ trait HasFilesManipulation
     }
 
     /**
-     * Get the temp directory.
+     * Get the temp directory path.
      *
      * @param  string|null  $path
      *
      * @return string
      */
-    protected static function getTempDirectory(string $path = null): string
+    protected static function tempDirectory(string $path = null): string
     {
         return static::getTestsPath('temp'.($path ? '/'.$path : $path));
     }
 
     /**
-     * Get the stubs directory.
+     * Get the stubs directory path.
      *
      * @param  string|null  $path
      *
      * @return string
      */
-    protected static function getStubsDirectory(string $path = null): string
+    protected static function stubsDirectory(string $path = null): string
     {
         return static::getTestsPath('_stubs'.($path ? '/'.$path : $path));
     }
@@ -65,7 +63,7 @@ trait HasFilesManipulation
      *
      * @return \Symfony\Component\Finder\SplFileInfo[]
      */
-    protected static function getAllFiles(string $path, $hidden = false): array
+    protected static function getAllFiles(string $path, bool $hidden = false): array
     {
         return File::allFiles($path, $hidden);
     }
@@ -75,9 +73,12 @@ trait HasFilesManipulation
      */
     protected static function initTempDirectory(): void
     {
+        if (File::isDirectory(static::tempDirectory()))
+            static::deleteTempDirectory();
+
         static::createTempDirectory();
 
-        file_put_contents(static::getTempDirectory('.gitignore'), '*'.PHP_EOL.'!.gitignore');
+        file_put_contents(static::tempDirectory('.gitignore'), '*'.PHP_EOL.'!.gitignore');
     }
 
     /**
@@ -85,9 +86,7 @@ trait HasFilesManipulation
      */
     protected static function createTempDirectory(): void
     {
-        static::deleteTempDirectory();
-
-        File::makeDirectory(static::getTempDirectory());
+        File::ensureDirectoryExists(static::tempDirectory());
     }
 
     /**
@@ -98,8 +97,8 @@ trait HasFilesManipulation
     protected function copyStubsFilesInto(string $path = null): void
     {
         File::copyDirectory(
-            static::getStubsDirectory('files'),
-            $path ?: static::getTempDirectory()
+            static::stubsDirectory('files'),
+            $path ?: static::tempDirectory()
         );
     }
 
@@ -122,8 +121,8 @@ trait HasFilesManipulation
     public static function copyStubsInto(string $path = null, string $folder = null): void
     {
         File::copyDirectory(
-            static::getStubsDirectory($folder),
-            $path ?: static::getTempDirectory($folder)
+            static::stubsDirectory($folder),
+            $path ?: static::tempDirectory($folder)
         );
     }
 
@@ -132,7 +131,7 @@ trait HasFilesManipulation
      */
     protected static function deleteTempDirectory(): void
     {
-        if (File::exists($path = static::getTempDirectory()))
+        if (File::isDirectory($path = static::tempDirectory()))
             File::deleteDirectory($path);
     }
 
@@ -149,10 +148,22 @@ trait HasFilesManipulation
     protected static function fileExistsInZip(string $zipPath, string $fileName): bool
     {
         foreach (Zip::getFiles($zipPath) as $file) {
-            if ($fileName === $file)
+            if (static::replaceDirectorySeparator($fileName) === static::replaceDirectorySeparator($file))
                 return true;
         }
 
         return false;
+    }
+
+    /**
+     * Unify the directory separator to the system one.
+     *
+     * @param  string  $path
+     *
+     * @return string
+     */
+    protected static function replaceDirectorySeparator(string $path): string
+    {
+        return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
     }
 }

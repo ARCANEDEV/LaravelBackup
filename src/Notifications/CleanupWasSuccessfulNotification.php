@@ -1,10 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Notifications;
 
 use Arcanedev\LaravelBackup\Entities\BackupDestination;
+use Arcanedev\LaravelBackup\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\{MailMessage, SlackAttachment, SlackMessage};
 
 /**
@@ -63,6 +62,30 @@ class CleanupWasSuccessfulNotification extends AbstractNotification
                     $this->backupDestinationProperties($destination)->toArray()
                 );
             });
+        });
+
+        return $message;
+    }
+
+    /**
+     * Send to discord channel.
+     *
+     * @return \Arcanedev\LaravelBackup\Notifications\Messages\DiscordMessage
+     */
+    public function toDiscord(): DiscordMessage
+    {
+        $message = (new DiscordMessage)
+            ->success()
+            ->from(
+                config('backup.notifications.discord.username'),
+                config('backup.notifications.discord.avatar_url')
+            )
+            ->title(__('Clean up of backups successful!'));
+
+        $this->getBackupDestinations()->each(function (BackupDestination $destination) use ($message) {
+            $message->fields(
+                $this->backupDestinationProperties($destination)->toArray()
+            );
         });
 
         return $message;

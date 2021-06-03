@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Actions\Backup;
 
@@ -71,8 +69,6 @@ class BackupAction extends Action
      *
      * @param  \Arcanedev\LaravelBackup\Actions\Backup\BackupPassable|mixed  $passable
      * @param  \Throwable                                                    $e
-     *
-     * @return mixed|void
      *
      * @throws \Exception
      */

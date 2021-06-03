@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\EventSubscribers;
 
@@ -76,6 +74,7 @@ class BackupEventSubscriberTest extends TestCase
             [[]],
             [['mail']],
             [['mail', 'slack']],
+            [['mail', 'slack', 'discord']],
         ];
     }
 

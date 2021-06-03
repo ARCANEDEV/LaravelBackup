@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Database;
 
@@ -154,9 +152,8 @@ class Command
 
         $command = $this->toString();
 
-        if (is_null($compressor)) {
+        if (is_null($compressor))
             return "{$command} > {$dumpFile}";
-        }
 
         return static::isWindowsOS()
             ? "{$command} | {$compressor->useCommand()} > {$dumpFile}"

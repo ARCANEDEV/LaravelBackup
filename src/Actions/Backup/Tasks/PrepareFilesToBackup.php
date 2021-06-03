@@ -1,12 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Actions\Backup\Tasks;
 
 use Arcanedev\LaravelBackup\Actions\Backup\BackupPassable;
 use Arcanedev\LaravelBackup\Actions\TaskInterface;
-use Arcanedev\LaravelBackup\Database\DdDumper;
+use Arcanedev\LaravelBackup\Database\DbDumper;
 use Arcanedev\LaravelBackup\Entities\Manifest;
 use Arcanedev\LaravelBackup\Events\BackupManifestWasCreated;
 use Arcanedev\LaravelBackup\Helpers\FilesSelector;
@@ -27,7 +25,7 @@ class PrepareFilesToBackup implements TaskInterface
     /** @var  \Arcanedev\LaravelBackup\Helpers\FilesSelector */
     protected $selector;
 
-    /** @var  \Arcanedev\LaravelBackup\Database\DdDumper */
+    /** @var  \Arcanedev\LaravelBackup\Database\DbDumper */
     protected $dbDumper;
 
     /* -----------------------------------------------------------------
@@ -39,9 +37,9 @@ class PrepareFilesToBackup implements TaskInterface
      * PrepareFilesToBackup constructor.
      *
      * @param  \Arcanedev\LaravelBackup\Helpers\FilesSelector  $selector
-     * @param  \Arcanedev\LaravelBackup\Database\DdDumper         $dbDumper
+     * @param  \Arcanedev\LaravelBackup\Database\DbDumper         $dbDumper
      */
-    public function __construct(FilesSelector $selector, DdDumper $dbDumper)
+    public function __construct(FilesSelector $selector, DbDumper $dbDumper)
     {
         $this->selector = $selector;
         $this->dbDumper = $dbDumper;
@@ -83,16 +81,14 @@ class PrepareFilesToBackup implements TaskInterface
      *
      * @return \Arcanedev\LaravelBackup\Entities\Manifest
      */
-    protected function createManifest(BackupPassable $passable)
+    protected function createManifest(BackupPassable $passable): Manifest
     {
         return tap(Manifest::make($passable->temporaryDirectoryPath()), function (Manifest $manifest) use ($passable) {
-            if ( ! $passable->isOnlyDatabases()) {
+            if ( ! $passable->isOnlyDatabases())
                 $manifest->addFiles(['files' => $this->selectedFiles($passable)]);
-            }
 
-            if ( ! $passable->isOnlyFiles()) {
+            if ( ! $passable->isOnlyFiles())
                 $manifest->addFiles(['databases' => $this->dumpDatabases($passable)]);
-            }
 
             $manifest->save();
         });

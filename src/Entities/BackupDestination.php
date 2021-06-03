@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Entities;
 
@@ -117,7 +115,7 @@ class BackupDestination
      */
     protected function setBackupName(string $backupName): self
     {
-        $this->backupName = preg_replace('/[^a-zA-Z0-9.]/', '-', $backupName);
+        $this->backupName = (string) preg_replace('/[^a-zA-Z0-9.]/', '-', $backupName);
 
         return $this;
     }
@@ -250,6 +248,10 @@ class BackupDestination
      */
     public function write(string $file): void
     {
+        if ( ! is_null($this->connectionError)) {
+            throw InvalidBackupDestination::connectionError($this->diskName);
+        }
+
         if ( ! $this->hasDisk()) {
             throw InvalidBackupDestination::diskNotSet($this->backupName);
         }
@@ -286,7 +288,7 @@ class BackupDestination
      *
      * @return bool
      */
-    public function hasCachedBackups()
+    public function hasCachedBackups(): bool
     {
         return ! is_null($this->cachedBackups);
     }
@@ -323,8 +325,10 @@ class BackupDestination
      */
     public function newestBackupIsOlderThan(DateTimeInterface $date): bool
     {
-        return is_null($newestBackup = $this->newestBackup())
-            ?: $newestBackup->date()->gt($date);
+        $newestBackup = $this->newestBackup();
+
+        return is_null($newestBackup)
+            || $newestBackup->date()->gt($date);
     }
 
     /* -----------------------------------------------------------------
@@ -339,10 +343,16 @@ class BackupDestination
      */
     private function fetchBackups(): BackupCollection
     {
-        return BackupCollection::makeFromFiles(
-            $this->disk(),
-            $this->hasDisk() ? $this->getFiles() : []
-        );
+        $files = [];
+
+        if ($this->hasDisk()) {
+            try {
+                $files = $this->disk->allFiles($this->backupName);
+            }
+            catch (Exception $e) {}
+        }
+
+        return BackupCollection::makeFromFiles($this->disk(), $files);
     }
 
     /**

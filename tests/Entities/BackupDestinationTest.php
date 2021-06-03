@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Entities;
 
@@ -130,7 +128,7 @@ class BackupDestinationTest extends BackupTestCase
     {
         $destination = static::makeBackupDestination();
 
-        $destination->write($this->getStubsDirectory($path = 'files/.dotfile'));
+        $destination->write($this->stubsDirectory($path = 'files/.dotfile'));
 
         Storage::disk($this->diskName)->assertExists('ARCANEDEV/.dotfile');
     }
@@ -139,10 +137,10 @@ class BackupDestinationTest extends BackupTestCase
     public function it_cannot_write_file_on_invalid_disk(): void
     {
         $this->expectException(InvalidBackupDestination::class);
-        $this->expectExceptionMessage('There is no disk set for the backup named `ARCANEDEV`');
+        $this->expectExceptionMessage('There is a connection error when trying to connect to disk named `not-found`');
 
         BackupDestination::makeFromDiskName('not-found', $this->backupName)
-             ->write($this->getStubsDirectory('files/.dotfile'));
+             ->write($this->stubsDirectory('files/.dotfile'));
     }
 
     /** @test */

@@ -18,14 +18,16 @@
         "ext-json": "*",
         "ext-zip": "*",
         "arcanedev/support": "^8.0",
-        "league/flysystem": "^1.1"
+        "league/flysystem": "^1.1",
+        "symfony/process": "^4.2|^5.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "^3.155",
+        "laravel/framework": "^v8.40",
         "laravel/slack-notification-channel": "^2.3",
         "league/flysystem-aws-s3-v3": "^1.0.1",
         "mockery/mockery": "^1.4.2",
-        "orchestra/testbench": "^6.4",
+        "orchestra/testbench-core": "^6.4",
         "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
@@ -39,8 +41,9 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
-        "coverage": "phpunit --coverage-html build/coverage/html"
+        "test": "phpunit --colors=always",
+        "test:dox": "phpunit --testdox --colors=always",
+        "test:cov": "phpunit --coverage-html coverage"
     },
     "extra": {
         "branch-alias": {

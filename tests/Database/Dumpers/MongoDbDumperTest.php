@@ -1,9 +1,8 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Database\Dumpers;
 
+use Arcanedev\LaravelBackup\Database\Compressors\Bzip2Compressor;
 use Arcanedev\LaravelBackup\Database\Compressors\GzipCompressor;
 use Arcanedev\LaravelBackup\Database\Dumpers\MongoDbDumper;
 use Arcanedev\LaravelBackup\Exceptions\CannotStartDatabaseDump;
@@ -75,6 +74,19 @@ class MongoDbDumperTest extends DumpTestCase
             ->getDumpCommand('dbname.gz');
 
         $expected = '((((\'mongodump\' --db dbname --archive --host localhost --port 27017; echo $? >&3) | gzip > "dbname.gz") 3>&1) | (read x; exit $x))';
+
+        static::assertSameCommand($expected, $actual);
+    }
+
+    /** @test */
+    public function it_can_generate_a_dump_command_with_bzip2_compressor_enabled(): void
+    {
+        $actual = $this->dumper
+            ->setDbName('dbname')
+            ->useCompressor(new Bzip2Compressor)
+            ->getDumpCommand('dbname.bz2');
+
+        $expected = '((((\'mongodump\' --db dbname --archive --host localhost --port 27017; echo $? >&3) | bzip2 > "dbname.bz2") 3>&1) | (read x; exit $x))';
 
         static::assertSameCommand($expected, $actual);
     }

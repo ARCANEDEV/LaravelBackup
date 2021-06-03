@@ -1,10 +1,8 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Tests\Database\Dumpers;
 
-use Arcanedev\LaravelBackup\Database\Compressors\GzipCompressor;
+use Arcanedev\LaravelBackup\Database\Compressors\{Bzip2Compressor, GzipCompressor};
 use Arcanedev\LaravelBackup\Database\Dumpers\SqliteDumper;
 
 /**
@@ -35,13 +33,6 @@ class SqliteDumperTest extends DumpTestCase
         static::copyStubsDatabasesInto();
 
         $this->dumper = new SqliteDumper;
-    }
-
-    protected function tearDown(): void
-    {
-        self::deleteTempDirectory();
-
-        parent::tearDown();
     }
 
     /* -----------------------------------------------------------------
@@ -82,6 +73,20 @@ class SqliteDumperTest extends DumpTestCase
     }
 
     /** @test */
+    public function it_can_generate_a_dump_command_with_bzip2_compressor_enabled(): void
+    {
+        $actual = $this->dumper
+            ->setDbName('database.sqlite')
+            ->useCompressor(new Bzip2Compressor)
+            ->getDumpCommand('dump.sql');
+
+        $expected = '((((echo \'BEGIN IMMEDIATE;
+.dump\' | \'sqlite3\' --bail \'database.sqlite\'; echo $? >&3) | bzip2 > "dump.sql") 3>&1) | (read x; exit $x))';
+
+        static::assertSameCommand($expected, $actual);
+    }
+
+    /** @test */
     public function it_can_generate_a_dump_command_with_absolute_paths(): void
     {
         $actual = $this->dumper
@@ -110,8 +115,8 @@ class SqliteDumperTest extends DumpTestCase
     /** @test */
     public function it_successfully_creates_a_backup(): void
     {
-        $dbPath       = static::getTempDirectory('databases/database.sqlite');
-        $dbBackupPath = static::getTempDirectory('databases/backup.sql');
+        $dbPath       = static::tempDirectory('databases/database.sqlite');
+        $dbBackupPath = static::tempDirectory('databases/backup.sql');
 
         $this->dumper
             ->setDbName($dbPath)

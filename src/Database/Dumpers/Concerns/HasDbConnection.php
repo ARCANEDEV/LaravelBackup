@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Database\Dumpers\Concerns;
 
@@ -41,6 +39,9 @@ trait HasDbConnection
 
     /** @var  array */
     protected $extraOptions = [];
+
+    /** @var array */
+    protected $extraOptionsAfterDbName = [];
 
     /* -----------------------------------------------------------------
      |  Getters & Setters
@@ -225,6 +226,20 @@ trait HasDbConnection
     {
         if ( ! empty($extraOption)) {
             $this->extraOptions[] = $extraOption;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param  string  $extraOptionAfterDbName
+     *
+     * @return $this|mixed
+     */
+    public function addExtraOptionAfterDbName(string $extraOptionAfterDbName)
+    {
+        if (! empty($extraOptionAfterDbName)) {
+            $this->extraOptionsAfterDbName[] = $extraOptionAfterDbName;
         }
 
         return $this;

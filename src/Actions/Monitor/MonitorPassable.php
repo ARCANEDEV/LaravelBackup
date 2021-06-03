@@ -1,11 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Actions\Monitor;
 
 use Arcanedev\LaravelBackup\Actions\Passable;
 use Arcanedev\LaravelBackup\Entities\BackupDestinationStatusCollection;
+use Illuminate\Support\Collection;
 
 /**
  * Class     MonitorPassable
@@ -33,6 +32,16 @@ class MonitorPassable extends Passable
      |  Getters & Setters
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Get all the statuses.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllStatuses(): Collection
+    {
+        return $this->getHealthyStatuses()->merge($this->getUnhealthyStatuses());
+    }
 
     /**
      * Get the healthy statuses.

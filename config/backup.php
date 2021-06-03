@@ -61,6 +61,13 @@ return [
                 // Determines if it should avoid unreadable folders.
                 'ignore-unreadable-directories' => false,
 
+                /*
+                 * This path is used to make directories in resulting zip-file relative
+                 * Set to `null` to include complete absolute path
+                 * Example: base_path()
+                 */
+                'relative-path' => null,
+
             ],
 
             /*
@@ -99,21 +106,46 @@ return [
 
         ],
 
-        /*
-         * The database dump can be compressed to decrease disk space usage.
-         *
-         * Out of the box LaravelBackup supplies:
-         * Arcanedev\LaravelBackup\Database\Compressors\GzipCompressor::class
-         *
-         * You can also use a custom compressor by implementing the contract:
-         * Arcanedev\LaravelBackup\Database\Contracts\Compressor
-         *
-         * If you do not want any compressor at all, set it to `null`.
-         */
-        'db-dump-compressor' => null,
+        'db-dump' => [
+            /*
+             * The database dump can be compressed to decrease disk space usage.
+             *
+             * Out of the box LaravelBackup supplies:
+             * Arcanedev\LaravelBackup\Database\Compressors\GzipCompressor::class
+             *
+             * You can also use a custom compressor by implementing the contract:
+             * Arcanedev\LaravelBackup\Database\Contracts\Compressor
+             *
+             * If you do not want any compressor at all, set it to `null`.
+             */
+            'compressor' => null,
+
+            /*
+             * The file extension used for the database dump files.
+             *
+             * If not specified, the file extension will be `.archive` for MongoDB and `.sql` for all other databases
+             * The file extension should be specified without a leading `.`
+             */
+            'file-extension' => '',
+        ],
 
         // The directory where the temporary files will be stored.
         'temporary-directory' => storage_path('app/_backup-temp'),
+
+        /*
+         * The password to be used for archive encryption.
+         * Set to `null` to disable encryption.
+         */
+        'password' => env('BACKUP_ARCHIVE_PASSWORD'),
+
+        /*
+         * The encryption algorithm to be used for archive encryption.
+         * You can set it to `null` or `false` to disable encryption.
+         *
+         * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
+         * available on your system.
+         */
+        'encryption' => 'default',
 
         'tasks' => [
             Arcanedev\LaravelBackup\Actions\Backup\Tasks\CheckOptions::class,
@@ -262,6 +294,13 @@ return [
             'icon'        => null,
         ],
 
+        'discord' => [
+            'webhook_url' => '',
+
+            'username'    => null,
+            'avatar_url'  => null,
+        ],
+
     ],
 
     /* -----------------------------------------------------------------
@@ -277,6 +316,9 @@ return [
         ],
         Arcanedev\LaravelBackup\Events\BackupActionHasFailed::class      => [
             Arcanedev\LaravelBackup\Listeners\SendBackupHasFailedNotification::class
+        ],
+        Arcanedev\LaravelBackup\Events\BackupZipWasCreated::class => [
+            Arcanedev\LaravelBackup\Listeners\EncryptBackupArchive::class,
         ],
 
         // Cleanup Action

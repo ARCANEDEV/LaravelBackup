@@ -1,11 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Events;
 
 use Arcanedev\LaravelBackup\Actions\Backup\BackupPassable;
 use Exception;
+use Throwable;
 
 /**
  * Class     BackupActionHasFailed
@@ -34,9 +33,9 @@ class BackupActionHasFailed
      * BackupHasFailed constructor.
      *
      * @param  \Arcanedev\LaravelBackup\Actions\Backup\BackupPassable  $passable
-     * @param  \Exception                                              $exception
+     * @param  \Throwable                                              $exception
      */
-    public function __construct(BackupPassable $passable, Exception $exception)
+    public function __construct(BackupPassable $passable, Throwable $exception)
     {
         $this->passable  = $passable;
         $this->exception = $exception;

@@ -1,10 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanedev\LaravelBackup\Notifications;
 
 use Arcanedev\LaravelBackup\Entities\BackupDestinationStatus;
+use Arcanedev\LaravelBackup\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\{MailMessage, SlackAttachment, SlackMessage};
 
 /**
@@ -97,6 +96,44 @@ class UnhealthyBackupsWasFoundNotification extends AbstractNotification
                             ->title(__('Exception trace'))
                             ->content($failure->exception()->getTraceAsString());
                     });
+            }
+        });
+
+        return $message;
+    }
+
+    /**
+     * Send to discord channel.
+     *
+     * @return \Arcanedev\LaravelBackup\Notifications\Messages\DiscordMessage
+     */
+    public function toDiscord(): DiscordMessage
+    {
+        $message = (new DiscordMessage)
+            ->error()
+            ->from(
+                config('backup.notifications.discord.username'),
+                config('backup.notifications.discord.avatar_url')
+            )
+            ->title(
+                __('Important: The backups for :application_name are unhealthy', [
+                    'application_name' => $applicationName = $this->applicationName(),
+                ])
+            );
+
+        $this->getStatuses()->each(function (BackupDestinationStatus $status) use ($message) {
+            $message->fields(
+                $this->backupDestinationProperties($status->backupDestination())->toArray()
+            );
+
+            $failure = $status->getHealthCheckFailure();
+
+            if ($failure->wasUnexpected()) {
+                $message
+                    ->fields(['Health Check' => $failure->healthCheck()->name()])
+                    ->fields([
+                        trans('backup::notifications.exception_message_title') => $failure->exception()->getMessage(),
+                    ]);
             }
         });
 
