@@ -17,17 +17,17 @@
         "php": "^7.3|^8.0",
         "ext-json": "*",
         "ext-zip": "*",
-        "arcanedev/support": "^8.0",
-        "league/flysystem": "^1.1",
+        "arcanedev/support": "^9.0",
+        "league/flysystem": "^2.0",
         "symfony/process": "^4.2|^5.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "^3.155",
-        "laravel/framework": "^v8.40",
-        "laravel/slack-notification-channel": "^2.3",
-        "league/flysystem-aws-s3-v3": "^1.0.1",
+        "laravel/framework": "^v9.0",
+        "laravel/slack-notification-channel": "^3.0",
+        "league/flysystem-aws-s3-v3": "^2.0.0",
         "mockery/mockery": "^1.4.2",
-        "orchestra/testbench-core": "^6.4",
+        "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
@@ -47,7 +47,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "2.x-dev"
+            "dev-develop": "4.x-dev"
         },
         "laravel": {
             "providers": [
